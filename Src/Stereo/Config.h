@@ -7,7 +7,17 @@ using namespace cv;
 
 
 #ifndef SAVE_CAMERA_FRAME
-#define SAVE_CAMERA_FRAME 0                              // Enable multithread for boosting performance. Disabled by default for android.
+#define SAVE_CAMERA_FRAME 0                              // Enable multi-thread for boosting performance. Disabled by default for android.
 #endif
+
+#define ALGORITHM_OPTION    "--algorithm="
+#define ALGORITHM_NAME_BM   "bm"
+#define ALGORITHM_NAME_SGBM "sgbm"
+#define ALGORITHM_NAME_HH   "hh"
+#define ALGORITHM_NAME_VAR  "var"
+
+#define MAX_DISPARITY_OPTION "--max-disparity="
+#define BLOCK_SIZE_OPTION    "--blocksize="
+#define SCALE_OPTION         "--scale="
 
 #endif /* __CONFIG_H */

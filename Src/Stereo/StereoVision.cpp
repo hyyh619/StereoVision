@@ -24,16 +24,6 @@
 
 using namespace cv;
 
-#define ALGORITHM_OPTION    "--algorithm="
-#define ALGORITHM_NAME_BM   "bm"
-#define ALGORITHM_NAME_SGBM "sgbm"
-#define ALGORITHM_NAME_HH   "hh"
-#define ALGORITHM_NAME_VAR  "var"
-
-#define MAX_DISPARITY_OPTION "--max-disparity="
-#define BLOCK_SIZE_OPTION    "--blocksize="
-#define SCALE_OPTION         "--scale="
-
 const char *g_windowName        = "StereoVision";      // Name shown in the GUI window.
 const char *g_intrinsicFileName = 0;
 const char *g_extrinsicFileName = 0;

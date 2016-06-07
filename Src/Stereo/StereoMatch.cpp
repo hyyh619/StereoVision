@@ -10,19 +10,15 @@
 #include "opencv2/core/utility.hpp"
 
 #include "TqcLog.h"
+#include "TqcUtils.h"
+#include "Config.h"
+#include "StereoVision.h"
 
 using namespace cv;
 using namespace std;
 
-#define MAX_PATH 256
+#define SAVE_XYZ_FILTER 1
 
-enum
-{
-    STEREO_BM   = 0,
-    STEREO_SGBM = 1,
-    STEREO_HH   = 2,
-    STEREO_VAR  = 3
-};
 
 Mat g_disp;
 Mat g_Q;
@@ -41,16 +37,22 @@ static void PrintHelp()
 
 static void SaveXYZ(const char *filename, const Mat &mat)
 {
+#if SAVE_XYZ_FILTER
     const double max_z = 1.0e4;
-    FILE         *fp   = fopen(filename, "wt");
+#endif
+    FILE *fp = fopen(filename, "wt");
 
     for (int y = 0; y < mat.rows; y++)
     {
         for (int x = 0; x < mat.cols; x++)
         {
             Vec3f point = mat.at<Vec3f>(y, x);
-            // if(fabs(point[2] - max_z) < FLT_EPSILON || fabs(point[2]) > max_z)
-            //    continue;
+
+#if SAVE_XYZ_FILTER
+            if (fabs(point[2] - max_z) < FLT_EPSILON || fabs(point[2]) > max_z)
+                continue;
+#endif
+
             fprintf(fp, "%f %f %f\n", point[0], point[1], point[2]);
         }
     }
@@ -60,7 +62,7 @@ static void SaveXYZ(const char *filename, const Mat &mat)
 
 void AddFileList(const char *lpPath, const char *filePrefix, vector<char*> &fileList)
 {
-    char            szFind[MAX_PATH];
+    char            szFind[TQC_MAX_PATH];
     WIN32_FIND_DATA FindFileData;
 
     strcpy(szFind, lpPath);
@@ -80,9 +82,9 @@ void AddFileList(const char *lpPath, const char *filePrefix, vector<char*> &file
             if (strstr(FindFileData.cFileName, filePrefix) && !strstr(FindFileData.cFileName, "disp"))
             {
                 char *szFile;
-                szFile = (char*)malloc(MAX_PATH);
+                szFile = (char*)malloc(TQC_MAX_PATH);
 
-                memset(szFile, 0, MAX_PATH);
+                memset(szFile, 0, TQC_MAX_PATH);
                 strcpy(szFile, lpPath);
                 strcat(szFile, "");
                 strcat(szFile, FindFileData.cFileName);
@@ -99,13 +101,13 @@ void AddFileList(const char *lpPath, const char *filePrefix, vector<char*> &file
 
 void AddFileList(const char *filePrefix, vector<char*> &fileList)
 {
-    char path[MAX_PATH];
-    char filePre[MAX_PATH];
-    int  len    = strlen(filePrefix) - 1;
-    int  orgLen = len;
+    char   path[TQC_MAX_PATH];
+    char   filePre[TQC_MAX_PATH];
+    size_t len    = strlen(filePrefix) - 1;
+    size_t orgLen = len;
 
-    memset(path, 0, MAX_PATH);
-    memset(filePre, 0, MAX_PATH);
+    memset(path, 0, TQC_MAX_PATH);
+    memset(filePre, 0, TQC_MAX_PATH);
 
     while (filePrefix[len] != '\\')
     {
@@ -140,7 +142,7 @@ void OnMouse(int event, int x, int y, int, void*)
 
 int main(int argc, char **argv)
 {
-    char       strFileName[MAX_PATH];
+    char       strFileName[TQC_MAX_PATH];
     const char *algorithm_opt = "--algorithm=";
     const char *maxdisp_opt   = "--max-disparity=";
     const char *blocksize_opt = "--blocksize=";
@@ -191,6 +193,10 @@ int main(int argc, char **argv)
                             strcmp(algorithmName, "sgbm") == 0 ? STEREO_SGBM :
                             strcmp(algorithmName, "hh") == 0 ? STEREO_HH :
                             strcmp(algorithmName, "var") == 0 ? STEREO_VAR : -1;
+            alg = strcmp(algorithmName, ALGORITHM_NAME_BM) == 0 ? STEREO_BM :
+                  strcmp(algorithmName, ALGORITHM_NAME_SGBM) == 0 ? STEREO_SGBM :
+                  strcmp(algorithmName, ALGORITHM_NAME_HH) == 0 ? STEREO_HH :
+                  strcmp(algorithmName, ALGORITHM_NAME_VAR) == 0 ? STEREO_VAR : STEREO_VALID;
             if (alg < 0)
             {
                 LOGE("Command-line parameter error: Unknown stereo algorithm\n\n");
@@ -455,24 +461,24 @@ int main(int argc, char **argv)
             LOGE("\n");
         }
 
-        memset(strFileName, 0, MAX_PATH);
+        memset(strFileName, 0, TQC_MAX_PATH);
         sprintf(strFileName, "%s_disp_%s.jpg", fileList1.at(i), algorithmName);
         imwrite(strFileName, disp8);
 
-        // if (point_cloud_filename)
-        // {
-        //    LOGE("storing the point cloud...");
-        //    fflush(stdout);
-        //    Mat xyz;
-        //    reprojectImageTo3D(disp, xyz, Q, true);
-        //    SaveXYZ(point_cloud_filename, xyz);
-        //    LOGE("\n");
-        // }
+        if (point_cloud_filename)
+        {
+            LOGE("storing the point cloud...");
+            fflush(stdout);
+            Mat xyz;
+            reprojectImageTo3D(disp, xyz, Q, true);
+            SaveXYZ(point_cloud_filename, xyz);
+            LOGE("\n");
+        }
 
         CvMat *pColorMat = cvCreateMat(disp8.rows, disp8.cols, CV_8UC3);
         CvMat grayMat    = disp8;
         Gray2Color(&grayMat, pColorMat);
-        memset(strFileName, 0, MAX_PATH);
+        memset(strFileName, 0, TQC_MAX_PATH);
         sprintf(strFileName, "%s_color_%s.jpg", fileList1.at(i), algorithmName);
         Mat colorMat1 = Mat(pColorMat->rows, pColorMat->cols, CV_8UC3, pColorMat->data.ptr);
         imwrite(strFileName, colorMat1);
@@ -515,7 +521,7 @@ void SaveDisp(const char *filename, const Mat &mat)
         for (int x = 0; x < mat.cols; x++)
         {
             int disp = (int)mat.at<short>(y, x);    // 这里视差矩阵是CV_16S 格式的，故用 short 类型读取
-            fprintf(fp, "%d %d %d\n", x, y, disp);              // 若视差矩阵是 CV_32F 格式，则用 float 类型读取
+            fprintf(fp, "%d %d %d\n", x, y, disp);  // 若视差矩阵是 CV_32F 格式，则用 float 类型读取
         }
     }
 
@@ -528,15 +534,16 @@ void Gray2Color(CvMat *pGrayMat, CvMat *pColorMat)
         cvZero(pColorMat);
 
     int stype = CV_MAT_TYPE(pGrayMat->type), dtype = CV_MAT_TYPE(pColorMat->type);
-    int rows  = pGrayMat->rows, cols = pGrayMat->cols;
+    int rows  = pGrayMat->rows;
+    int cols  = pGrayMat->cols;
 
     // 判断输入的灰度图和输出的伪彩色图是否大小相同、格式是否符合要求
     if (CV_ARE_SIZES_EQ(pGrayMat, pColorMat) && stype == CV_8UC1 && dtype == CV_8UC3)
     {
-        CvMat *red   = cvCreateMat(pGrayMat->rows, pGrayMat->cols, CV_8U);
-        CvMat *green = cvCreateMat(pGrayMat->rows, pGrayMat->cols, CV_8U);
-        CvMat *blue  = cvCreateMat(pGrayMat->rows, pGrayMat->cols, CV_8U);
-        CvMat *mask  = cvCreateMat(pGrayMat->rows, pGrayMat->cols, CV_8U);
+        CvMat *red   = cvCreateMat(rows, cols, CV_8U);
+        CvMat *green = cvCreateMat(rows, cols, CV_8U);
+        CvMat *blue  = cvCreateMat(rows, cols, CV_8U);
+        CvMat *mask  = cvCreateMat(rows, cols, CV_8U);
 
         // 计算各彩色通道的像素值
         cvSubRS(pGrayMat, cvScalar(255), blue); // blue(I) = 255 - gray(I)

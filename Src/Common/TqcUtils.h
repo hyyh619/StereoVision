@@ -9,6 +9,8 @@
 
 #include "TqcOs.h"
 
+#define TQC_MAX_PATH 256
+
 class CLock
 {
 public:
