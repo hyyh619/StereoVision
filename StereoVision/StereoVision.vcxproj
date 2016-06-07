@@ -100,7 +100,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../../opencv/build/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../opencv/build/include;../Src/Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,15 +146,18 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Data\extrinsics.yml" />
-    <None Include="..\Data\intrinsics.yml" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="..\Src\Stereo\StereoVision.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Src\Common\TqcLog.h" />
     <ClInclude Include="..\Src\Stereo\Config.h" />
     <ClInclude Include="..\Src\Stereo\StereoVision.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Data\Logitech_extrinsics.yml" />
+    <None Include="..\Data\Logitech_intrinsics.yml" />
+    <None Include="..\Data\ThinkPad_extrinsics.yml" />
+    <None Include="..\Data\ThinkPad_intrinsics.yml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

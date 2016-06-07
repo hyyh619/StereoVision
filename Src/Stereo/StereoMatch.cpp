@@ -9,6 +9,8 @@
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/core/utility.hpp"
 
+#include "TqcLog.h"
+
 using namespace cv;
 using namespace std;
 
@@ -30,11 +32,11 @@ void Gray2Color(CvMat *pGrayMat, CvMat *pColorMat);
 
 static void PrintHelp()
 {
-    printf("\nDemo stereo matching converting L and R images into disparity and point clouds\n");
-    printf("\nUsage: stereo_match <left_image> <right_image> [--algorithm=bm|sgbm|hh] [--blocksize=<block_size>]\n"
-           "[--max-disparity=<max_disparity>] [--scale=scale_factor>] [-i <intrinsic_filename>] [-e <extrinsic_filename>]\n"
-           "[--no-display] [-o <disparity_image>] [-p <point_cloud_file>]\n"
-           "[--path outputPath] [--left left] [--right right]");
+    LOGE("\nDemo stereo matching converting L and R images into disparity and point clouds\n");
+    LOGE("\nUsage: stereo_match <left_image> <right_image> [--algorithm=bm|sgbm|hh] [--blocksize=<block_size>]\n"
+         "[--max-disparity=<max_disparity>] [--scale=scale_factor>] [-i <intrinsic_filename>] [-e <extrinsic_filename>]\n"
+         "[--no-display] [-o <disparity_image>] [-p <point_cloud_file>]\n"
+         "[--path outputPath] [--left left] [--right right]");
 }
 
 static void SaveXYZ(const char *filename, const Mat &mat)
@@ -132,7 +134,7 @@ void OnMouse(int event, int x, int y, int, void*)
     double yc = ((y + q[1][3]) / (q[3][2] * g_disp.at<short>(y, x) + q[3][3])) * 16;
     double zc = ((q[2][3]) / (q[3][2] * g_disp.at<short>(y, x) + q[3][3])) * 16;
 
-    printf("(%d, %d, %d): %f, %f, %f\n", x, y, g_disp.at<short>(y, x), xc, yc, zc);
+    LOGE("(%d, %d, %d): %f, %f, %f\n", x, y, g_disp.at<short>(y, x), xc, yc, zc);
 }
 
 
@@ -191,7 +193,7 @@ int main(int argc, char **argv)
                             strcmp(algorithmName, "var") == 0 ? STEREO_VAR : -1;
             if (alg < 0)
             {
-                printf("Command-line parameter error: Unknown stereo algorithm\n\n");
+                LOGE("Command-line parameter error: Unknown stereo algorithm\n\n");
                 PrintHelp();
                 return -1;
             }
@@ -201,7 +203,7 @@ int main(int argc, char **argv)
             if (sscanf(argv[i] + strlen(maxdisp_opt), "%d", &numberOfDisparities) != 1 ||
                 numberOfDisparities < 1 || numberOfDisparities % 16 != 0)
             {
-                printf("Command-line parameter error: The max disparity (--maxdisparity=<...>) must be a positive integer divisible by 16\n");
+                LOGE("Command-line parameter error: The max disparity (--maxdisparity=<...>) must be a positive integer divisible by 16\n");
                 PrintHelp();
                 return -1;
             }
@@ -211,7 +213,7 @@ int main(int argc, char **argv)
             if (sscanf(argv[i] + strlen(blocksize_opt), "%d", &SADWindowSize) != 1 ||
                 SADWindowSize < 1 || SADWindowSize % 2 != 1)
             {
-                printf("Command-line parameter error: The block size (--blocksize=<...>) must be a positive odd number\n");
+                LOGE("Command-line parameter error: The block size (--blocksize=<...>) must be a positive odd number\n");
                 return -1;
             }
         }
@@ -219,7 +221,7 @@ int main(int argc, char **argv)
         {
             if (sscanf(argv[i] + strlen(scale_opt), "%f", &scale) != 1 || scale < 0)
             {
-                printf("Command-line parameter error: The scale factor (--scale=<...>) must be a positive floating-point number\n");
+                LOGE("Command-line parameter error: The scale factor (--scale=<...>) must be a positive floating-point number\n");
                 return -1;
             }
         }
@@ -247,7 +249,7 @@ int main(int argc, char **argv)
         }
         else
         {
-            printf("Command-line parameter error: unknown option %s\n", argv[i]);
+            LOGE("Command-line parameter error: unknown option %s\n", argv[i]);
             return -1;
         }
     }
@@ -255,19 +257,19 @@ int main(int argc, char **argv)
     if ((!leftFilename || !rightFilename) &&
         (!leftPrefix || !rightPrefix))
     {
-        printf("Command-line parameter error: both left and right images must be specified\n");
+        LOGE("Command-line parameter error: both left and right images must be specified\n");
         return -1;
     }
 
     if ((intrinsic_filename != 0) ^ (extrinsic_filename != 0))
     {
-        printf("Command-line parameter error: either both intrinsic and extrinsic parameters must be specified, or none of them (when the stereo pair is already rectified)\n");
+        LOGE("Command-line parameter error: either both intrinsic and extrinsic parameters must be specified, or none of them (when the stereo pair is already rectified)\n");
         return -1;
     }
 
     if (extrinsic_filename == 0 && point_cloud_filename && outputPath)
     {
-        printf("Command-line parameter error: extrinsic and intrinsic parameters must be specified to compute the point cloud\n");
+        LOGE("Command-line parameter error: extrinsic and intrinsic parameters must be specified to compute the point cloud\n");
         return -1;
     }
 
@@ -290,13 +292,13 @@ int main(int argc, char **argv)
 
         if (img1.empty())
         {
-            printf("Command-line parameter error: could not load the first input image file\n");
+            LOGE("Command-line parameter error: could not load the first input image file\n");
             return -1;
         }
 
         if (img2.empty())
         {
-            printf("Command-line parameter error: could not load the second input image file\n");
+            LOGE("Command-line parameter error: could not load the second input image file\n");
             return -1;
         }
 
@@ -321,7 +323,7 @@ int main(int argc, char **argv)
             FileStorage fs(intrinsic_filename, FileStorage::READ);
             if (!fs.isOpened())
             {
-                printf("Failed to open file %s\n", intrinsic_filename);
+                LOGE("Failed to open file %s\n", intrinsic_filename);
                 return -1;
             }
 
@@ -337,7 +339,7 @@ int main(int argc, char **argv)
             fs.open(extrinsic_filename, FileStorage::READ);
             if (!fs.isOpened())
             {
-                printf("Failed to open file %s\n", extrinsic_filename);
+                LOGE("Failed to open file %s\n", extrinsic_filename);
                 return -1;
             }
 
@@ -416,7 +418,7 @@ int main(int argc, char **argv)
         g_disp = disp;
 
         t = getTickCount() - t;
-        printf("#%d---Time elapsed: %fms\n", i, t * 1000 / getTickFrequency());
+        LOGE("#%d---Time elapsed: %fms\n", i, t * 1000 / getTickFrequency());
 
         // disp = dispp.colRange(numberOfDisparities, img1p.cols);
         if (alg != STEREO_VAR)
@@ -427,11 +429,11 @@ int main(int argc, char **argv)
         // benet-add for matlab display
         // if (disparity_filename)
         // {
-        //    printf("Q Matrix: 0x%X\n", Q.type());
-        //    printf("%f %f %f %f\n", Q.at<double>(0, 0), Q.at<double>(0, 1), Q.at<double>(0, 2), Q.at<double>(0, 3));
-        //    printf("%f %f %f %f\n", Q.at<double>(1, 0), Q.at<double>(1, 1), Q.at<double>(1, 2), Q.at<double>(1, 3));
-        //    printf("%f %f %f %f\n", Q.at<double>(2, 0), Q.at<double>(2, 1), Q.at<double>(2, 2), Q.at<double>(2, 3));
-        //    printf("%f %f %f %f\n", Q.at<double>(3, 0), Q.at<double>(3, 1), Q.at<double>(3, 2), Q.at<double>(3, 3));
+        //    LOGE("Q Matrix: 0x%X\n", Q.type());
+        //    LOGE("%f %f %f %f\n", Q.at<double>(0, 0), Q.at<double>(0, 1), Q.at<double>(0, 2), Q.at<double>(0, 3));
+        //    LOGE("%f %f %f %f\n", Q.at<double>(1, 0), Q.at<double>(1, 1), Q.at<double>(1, 2), Q.at<double>(1, 3));
+        //    LOGE("%f %f %f %f\n", Q.at<double>(2, 0), Q.at<double>(2, 1), Q.at<double>(2, 2), Q.at<double>(2, 3));
+        //    LOGE("%f %f %f %f\n", Q.at<double>(3, 0), Q.at<double>(3, 1), Q.at<double>(3, 2), Q.at<double>(3, 3));
         //    SaveDisp(disparity_filename, disp);
         // }
 
@@ -447,10 +449,10 @@ int main(int argc, char **argv)
             // Get OpenCV to automatically call my "onMouse()" function when the user clicks in the GUI window.
             setMouseCallback("disparity", OnMouse, 0);
 
-            printf("press any key to continue...");
+            LOGE("press any key to continue...");
             fflush(stdout);
             waitKey();
-            printf("\n");
+            LOGE("\n");
         }
 
         memset(strFileName, 0, MAX_PATH);
@@ -459,12 +461,12 @@ int main(int argc, char **argv)
 
         // if (point_cloud_filename)
         // {
-        //    printf("storing the point cloud...");
+        //    LOGE("storing the point cloud...");
         //    fflush(stdout);
         //    Mat xyz;
         //    reprojectImageTo3D(disp, xyz, Q, true);
         //    SaveXYZ(point_cloud_filename, xyz);
-        //    printf("\n");
+        //    LOGE("\n");
         // }
 
         CvMat *pColorMat = cvCreateMat(disp8.rows, disp8.cols, CV_8UC3);

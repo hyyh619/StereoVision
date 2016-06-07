@@ -18,6 +18,7 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/core/utility.hpp>
 
+#include "TqcLog.h"
 #include "Config.h"
 #include "StereoVision.h"
 
@@ -80,7 +81,7 @@ bool ParseCmd(int argc, char *argv[])
                               strcmp(g_algorithmName, ALGORITHM_NAME_VAR) == 0 ? STEREO_VAR : STEREO_VALID;
             if (g_algorithm < 0)
             {
-                printf("Command-line parameter error: Unknown stereo algorithm\n\n");
+                LOGE("Command-line parameter error: Unknown stereo algorithm\n\n");
                 return false;
             }
         }
@@ -89,7 +90,7 @@ bool ParseCmd(int argc, char *argv[])
             if (sscanf(argv[i] + strlen(MAX_DISPARITY_OPTION), "%d", &g_numDisparities) != 1 ||
                 g_numDisparities < 1 || g_numDisparities % 16 != 0)
             {
-                printf("Command-line parameter error: The max disparity (--maxdisparity=<...>) must be a positive integer divisible by 16\n");
+                LOGE("Command-line parameter error: The max disparity (--maxdisparity=<...>) must be a positive integer divisible by 16\n");
                 return false;
             }
         }
@@ -98,7 +99,7 @@ bool ParseCmd(int argc, char *argv[])
             if (sscanf(argv[i] + strlen(BLOCK_SIZE_OPTION), "%d", &g_SADWindowSize) != 1 ||
                 g_SADWindowSize < 1 || g_SADWindowSize % 2 != 1)
             {
-                printf("Command-line parameter error: The block size (--blocksize=<...>) must be a positive odd number\n");
+                LOGE("Command-line parameter error: The block size (--blocksize=<...>) must be a positive odd number\n");
                 return false;
             }
         }
@@ -106,7 +107,7 @@ bool ParseCmd(int argc, char *argv[])
         {
             if (sscanf(argv[i] + strlen(SCALE_OPTION), "%f", &g_scale) != 1 || g_scale < 0)
             {
-                printf("Command-line parameter error: The scale factor (--scale=<...>) must be a positive floating-point number\n");
+                LOGE("Command-line parameter error: The scale factor (--scale=<...>) must be a positive floating-point number\n");
                 return false;
             }
         }
@@ -120,7 +121,7 @@ bool ParseCmd(int argc, char *argv[])
         }
         else
         {
-            printf("Command-line parameter error: unknown option %s\n", argv[i]);
+            LOGE("Command-line parameter error: unknown option %s\n", argv[i]);
             return false;
         }
     }
@@ -137,7 +138,7 @@ bool LoadCameraParameters()
     FileStorage fs(g_intrinsicFileName, FileStorage::READ);
     if (!fs.isOpened())
     {
-        printf("Failed to open file %s\n", g_intrinsicFileName);
+        LOGE("Failed to open file %s\n", g_intrinsicFileName);
         return false;
     }
 
@@ -153,7 +154,7 @@ bool LoadCameraParameters()
     fs.open(g_extrinsicFileName, FileStorage::READ);
     if (!fs.isOpened())
     {
-        printf("Failed to open file %s\n", g_intrinsicFileName);
+        LOGE("Failed to open file %s\n", g_intrinsicFileName);
         return false;
     }
 
@@ -264,7 +265,7 @@ int main(int argc, char *argv[])
         videoCapture2 >> videoFrame2;
         if (videoFrame1.empty() || videoFrame2.empty())
         {
-            printf("ERROR: Couldn't grab the next camera frame.\n");
+            LOGE("ERROR: Couldn't grab the next camera frame.\n");
             break;
         }
 
@@ -308,7 +309,7 @@ int main(int argc, char *argv[])
         }
 
         t = getTickCount() - t;
-        printf("#%d---Time elapsed: %fms\n", ++i, t * 1000 / getTickFrequency());
+        LOGE("#%d---Time elapsed: %fms\n", ++i, t * 1000 / getTickFrequency());
 
         if (g_algorithm != STEREO_VAR)
             disp.convertTo(disp8, CV_8U, 255 / (g_numDisparities * 16.));
