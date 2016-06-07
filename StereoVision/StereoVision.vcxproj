@@ -100,7 +100,9 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../../opencv/build/include;../Src/Common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../opencv/build/include;../Src/Common;../Src/Os;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>4127</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,10 +148,14 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Src\Common\TqcUtils.cpp" />
+    <ClCompile Include="..\Src\Os\Windows\TqcWindowsOS.cpp" />
     <ClCompile Include="..\Src\Stereo\StereoVision.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Src\Common\TqcLog.h" />
+    <ClInclude Include="..\Src\Common\TqcUtils.h" />
+    <ClInclude Include="..\Src\Os\TqcOs.h" />
     <ClInclude Include="..\Src\Stereo\Config.h" />
     <ClInclude Include="..\Src\Stereo\StereoVision.h" />
   </ItemGroup>
