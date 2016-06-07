@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{FF8BC96A-4DB8-3250-A5C2-2F8E996C6A74}</ProjectGUID>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>x64</Platform>
+    <ProjectName>StereoMatch</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\hy_code\OpenCV\opencv\project\window\bin\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">example_stereo_match.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">cpp-example-stereo_match</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\hy_code\OpenCV\opencv\project\window\bin\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">example_stereo_match.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">cpp-example-stereo_match</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalOptions> /bigobj %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\hy_code\OpenCV\opencv\sources\modules\video\include;D:\hy_code\OpenCV\opencv\sources\modules\imgproc\include;D:\hy_code\OpenCV\opencv\sources\modules\core\include;D:\hy_code\OpenCV\opencv\sources\modules\hal\include;D:\hy_code\OpenCV\opencv\sources\modules\calib3d\include;D:\hy_code\OpenCV\opencv\sources\modules\features2d\include;D:\hy_code\OpenCV\opencv\sources\modules\highgui\include;D:\hy_code\OpenCV\opencv\sources\modules\videoio\include;D:\hy_code\OpenCV\opencv\sources\modules\imgcodecs\include;D:\hy_code\OpenCV\opencv\sources\modules\photo\include;D:\hy_code\OpenCV\opencv\sources\modules\ml\include;D:\hy_code\OpenCV\opencv\sources\modules\flann\include;D:\hy_code\OpenCV\opencv\sources\modules\objdetect\include;D:\hy_code\OpenCV\opencv\sources\modules\shape\include;D:\hy_code\OpenCV\opencv\sources\modules\videostab\include;D:\hy_code\OpenCV\opencv\sources\modules\stitching\include;D:\hy_code\OpenCV\opencv\sources\include;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\include;D:\hy_code\OpenCV\opencv\project\window;D:\hy_code\OpenCV\opencv_contrib-master\modules\xfeatures2d\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Debug/</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4251;4324</DisableSpecificWarnings>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ProcessorNumber>4</ProcessorNumber>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;_DEBUG;_VARIADIC_MAX=10;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;_DEBUG;_VARIADIC_MAX=10;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\hy_code\OpenCV\opencv\sources\modules\video\include;D:\hy_code\OpenCV\opencv\sources\modules\imgproc\include;D:\hy_code\OpenCV\opencv\sources\modules\core\include;D:\hy_code\OpenCV\opencv\sources\modules\hal\include;D:\hy_code\OpenCV\opencv\sources\modules\calib3d\include;D:\hy_code\OpenCV\opencv\sources\modules\features2d\include;D:\hy_code\OpenCV\opencv\sources\modules\highgui\include;D:\hy_code\OpenCV\opencv\sources\modules\videoio\include;D:\hy_code\OpenCV\opencv\sources\modules\imgcodecs\include;D:\hy_code\OpenCV\opencv\sources\modules\photo\include;D:\hy_code\OpenCV\opencv\sources\modules\ml\include;D:\hy_code\OpenCV\opencv\sources\modules\flann\include;D:\hy_code\OpenCV\opencv\sources\modules\objdetect\include;D:\hy_code\OpenCV\opencv\sources\modules\shape\include;D:\hy_code\OpenCV\opencv\sources\modules\videostab\include;D:\hy_code\OpenCV\opencv\sources\modules\stitching\include;D:\hy_code\OpenCV\opencv\sources\include;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\include;D:\hy_code\OpenCV\opencv\project\window;D:\hy_code\OpenCV\opencv_contrib-master\modules\xfeatures2d\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\hy_code\OpenCV\opencv\sources\modules\video\include;D:\hy_code\OpenCV\opencv\sources\modules\imgproc\include;D:\hy_code\OpenCV\opencv\sources\modules\core\include;D:\hy_code\OpenCV\opencv\sources\modules\hal\include;D:\hy_code\OpenCV\opencv\sources\modules\calib3d\include;D:\hy_code\OpenCV\opencv\sources\modules\features2d\include;D:\hy_code\OpenCV\opencv\sources\modules\highgui\include;D:\hy_code\OpenCV\opencv\sources\modules\videoio\include;D:\hy_code\OpenCV\opencv\sources\modules\imgcodecs\include;D:\hy_code\OpenCV\opencv\sources\modules\photo\include;D:\hy_code\OpenCV\opencv\sources\modules\ml\include;D:\hy_code\OpenCV\opencv\sources\modules\flann\include;D:\hy_code\OpenCV\opencv\sources\modules\objdetect\include;D:\hy_code\OpenCV\opencv\sources\modules\shape\include;D:\hy_code\OpenCV\opencv\sources\modules\videostab\include;D:\hy_code\OpenCV\opencv\sources\modules\stitching\include;D:\hy_code\OpenCV\opencv\sources\include;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\include;D:\hy_code\OpenCV\opencv\project\window;D:\hy_code\OpenCV\opencv_contrib-master\modules\xfeatures2d\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:x64 /debug %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\lib\intel64\ippicvmt.lib;D:\hy_code\OpenCV\opencv\project\window\lib\Debug\opencv_stitching300d.lib;D:\hy_code\OpenCV\opencv\project\window\lib\Debug\opencv_videostab300d.lib;D:\hy_code\OpenCV\opencv\project\window\lib\Debug\opencv_objdetect300d.lib;D:\hy_code\OpenCV\opencv\project\window\lib\Debug\opencv_xfeatures2d300d.lib;D:\hy_code\OpenCV\opencv\project\window\lib\Debug\opencv_shape300d.lib;D:\hy_code\OpenCV\opencv\project\window\lib\Debug\opencv_video300d.lib;D:\hy_code\OpenCV\opencv\project\window\lib\Debug\opencv_photo300d.lib;D:\hy_code\OpenCV\opencv\project\window\lib\Debug\opencv_calib3d300d.lib;D:\hy_code\OpenCV\opencv\project\window\lib\Debug\opencv_features2d300d.lib;D:\hy_code\OpenCV\opencv\project\window\lib\Debug\opencv_flann300d.lib;D:\hy_code\OpenCV\opencv\project\window\lib\Debug\opencv_highgui300d.lib;D:\hy_code\OpenCV\opencv\project\window\lib\Debug\opencv_videoio300d.lib;D:\hy_code\OpenCV\opencv\project\window\lib\Debug\opencv_imgcodecs300d.lib;D:\hy_code\OpenCV\opencv\project\window\lib\Debug\opencv_imgproc300d.lib;D:\hy_code\OpenCV\opencv\project\window\lib\Debug\opencv_ml300d.lib;D:\hy_code\OpenCV\opencv\project\window\lib\Debug\opencv_core300d.lib;D:\hy_code\OpenCV\opencv\project\window\lib\Debug\opencv_hal300d.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/hy_code/OpenCV/opencv/project/window/bin/Debug/cpp-example-stereo_match.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/hy_code/OpenCV/opencv/project/window/bin/Debug/cpp-example-stereo_match.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+      <Version>
+      </Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalOptions> /bigobj %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>D:\hy_code\OpenCV\opencv\sources\modules\video\include;D:\hy_code\OpenCV\opencv\sources\modules\imgproc\include;D:\hy_code\OpenCV\opencv\sources\modules\core\include;D:\hy_code\OpenCV\opencv\sources\modules\hal\include;D:\hy_code\OpenCV\opencv\sources\modules\calib3d\include;D:\hy_code\OpenCV\opencv\sources\modules\features2d\include;D:\hy_code\OpenCV\opencv\sources\modules\highgui\include;D:\hy_code\OpenCV\opencv\sources\modules\videoio\include;D:\hy_code\OpenCV\opencv\sources\modules\imgcodecs\include;D:\hy_code\OpenCV\opencv\sources\modules\photo\include;D:\hy_code\OpenCV\opencv\sources\modules\ml\include;D:\hy_code\OpenCV\opencv\sources\modules\flann\include;D:\hy_code\OpenCV\opencv\sources\modules\objdetect\include;D:\hy_code\OpenCV\opencv\sources\modules\shape\include;D:\hy_code\OpenCV\opencv\sources\modules\videostab\include;D:\hy_code\OpenCV\opencv\sources\modules\stitching\include;D:\hy_code\OpenCV\opencv\sources\include;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\include;D:\hy_code\OpenCV\opencv\project\window;D:\hy_code\OpenCV\opencv_contrib-master\modules\xfeatures2d\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AssemblerListingLocation>Release/</AssemblerListingLocation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <DisableSpecificWarnings>4251;4324</DisableSpecificWarnings>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <ProcessorNumber>4</ProcessorNumber>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;NDEBUG;_VARIADIC_MAX=10;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;NDEBUG;_VARIADIC_MAX=10;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\hy_code\OpenCV\opencv\sources\modules\video\include;D:\hy_code\OpenCV\opencv\sources\modules\imgproc\include;D:\hy_code\OpenCV\opencv\sources\modules\core\include;D:\hy_code\OpenCV\opencv\sources\modules\hal\include;D:\hy_code\OpenCV\opencv\sources\modules\calib3d\include;D:\hy_code\OpenCV\opencv\sources\modules\features2d\include;D:\hy_code\OpenCV\opencv\sources\modules\highgui\include;D:\hy_code\OpenCV\opencv\sources\modules\videoio\include;D:\hy_code\OpenCV\opencv\sources\modules\imgcodecs\include;D:\hy_code\OpenCV\opencv\sources\modules\photo\include;D:\hy_code\OpenCV\opencv\sources\modules\ml\include;D:\hy_code\OpenCV\opencv\sources\modules\flann\include;D:\hy_code\OpenCV\opencv\sources\modules\objdetect\include;D:\hy_code\OpenCV\opencv\sources\modules\shape\include;D:\hy_code\OpenCV\opencv\sources\modules\videostab\include;D:\hy_code\OpenCV\opencv\sources\modules\stitching\include;D:\hy_code\OpenCV\opencv\sources\include;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\include;D:\hy_code\OpenCV\opencv\project\window;D:\hy_code\OpenCV\opencv_contrib-master\modules\xfeatures2d\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\hy_code\OpenCV\opencv\sources\modules\video\include;D:\hy_code\OpenCV\opencv\sources\modules\imgproc\include;D:\hy_code\OpenCV\opencv\sources\modules\core\include;D:\hy_code\OpenCV\opencv\sources\modules\hal\include;D:\hy_code\OpenCV\opencv\sources\modules\calib3d\include;D:\hy_code\OpenCV\opencv\sources\modules\features2d\include;D:\hy_code\OpenCV\opencv\sources\modules\highgui\include;D:\hy_code\OpenCV\opencv\sources\modules\videoio\include;D:\hy_code\OpenCV\opencv\sources\modules\imgcodecs\include;D:\hy_code\OpenCV\opencv\sources\modules\photo\include;D:\hy_code\OpenCV\opencv\sources\modules\ml\include;D:\hy_code\OpenCV\opencv\sources\modules\flann\include;D:\hy_code\OpenCV\opencv\sources\modules\objdetect\include;D:\hy_code\OpenCV\opencv\sources\modules\shape\include;D:\hy_code\OpenCV\opencv\sources\modules\videostab\include;D:\hy_code\OpenCV\opencv\sources\modules\stitching\include;D:\hy_code\OpenCV\opencv\sources\include;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\include;D:\hy_code\OpenCV\opencv\project\window;D:\hy_code\OpenCV\opencv_contrib-master\modules\xfeatures2d\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:x64 /debug %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\lib\intel64\ippicvmt.lib;..\..\lib\Release\opencv_stitching300.lib;..\..\lib\Release\opencv_videostab300.lib;..\..\lib\Release\opencv_objdetect300.lib;..\..\lib\Release\opencv_xfeatures2d300.lib;..\..\lib\Release\opencv_shape300.lib;..\..\lib\Release\opencv_video300.lib;..\..\lib\Release\opencv_photo300.lib;..\..\lib\Release\opencv_calib3d300.lib;..\..\lib\Release\opencv_features2d300.lib;..\..\lib\Release\opencv_flann300.lib;..\..\lib\Release\opencv_highgui300.lib;..\..\lib\Release\opencv_videoio300.lib;..\..\lib\Release\opencv_imgcodecs300.lib;..\..\lib\Release\opencv_imgproc300.lib;..\..\lib\Release\opencv_ml300.lib;..\..\lib\Release\opencv_core300.lib;..\..\lib\Release\opencv_hal300.lib;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\lib\intel64\ippicvmt.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>D:/hy_code/OpenCV/opencv/project/window/bin/Release/cpp-example-stereo_match.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/hy_code/OpenCV/opencv/project/window/bin/Release/cpp-example-stereo_match.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+      <Version>
+      </Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\hy_code\OpenCV\opencv\sources\samples\cpp\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/hy_code/OpenCV/opencv/sources/samples/cpp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -HD:/hy_code/OpenCV/opencv/sources -BD:/hy_code/OpenCV/opencv/project/window --check-stamp-file D:\hy_code\OpenCV\opencv\project\window\samples\cpp\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:/hy_code/OpenCV/opencv/sources/samples/cpp/CMakeLists.txt;D:\hy_code\OpenCV\opencv\sources\samples\cpp\CMakeLists.txt;D:\hy_code\OpenCV\opencv\sources\samples\cpp\tutorial_code\calib3d\real_time_pose_estimation\CMakeLists.txt;D:\hy_code\OpenCV\opencv\sources\samples\cpp\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\hy_code\OpenCV\opencv\project\window\samples\cpp\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/hy_code/OpenCV/opencv/sources/samples/cpp/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files (x86)\CMake\bin\cmake.exe" -HD:/hy_code/OpenCV/opencv/sources -BD:/hy_code/OpenCV/opencv/project/window --check-stamp-file D:\hy_code\OpenCV\opencv\project\window\samples\cpp\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:/hy_code/OpenCV/opencv/sources/samples/cpp/CMakeLists.txt;D:\hy_code\OpenCV\opencv\sources\samples\cpp\CMakeLists.txt;D:\hy_code\OpenCV\opencv\sources\samples\cpp\tutorial_code\calib3d\real_time_pose_estimation\CMakeLists.txt;D:\hy_code\OpenCV\opencv\sources\samples\cpp\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\hy_code\OpenCV\opencv\project\window\samples\cpp\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/ZERO_CHECK.vcxproj">
+      <Project>C72EC369-2E0D-38FE-8158-C35B39AD773E</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/calib3d/opencv_calib3d.vcxproj">
+      <Project>F5B50A7F-9190-3987-BF06-D05317DA3BE5</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/core/opencv_core.vcxproj">
+      <Project>6D1F438A-6B46-35B4-A855-2D4B3B7A9F0A</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/features2d/opencv_features2d.vcxproj">
+      <Project>5F48F293-4D0B-3DE0-84EA-99FD96FC0C05</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/flann/opencv_flann.vcxproj">
+      <Project>DDDDABFC-AA07-3554-A33B-E52D0BB1B31A</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/hal/opencv_hal.vcxproj">
+      <Project>BC072FF8-CA2E-3D79-BD69-5A71FBDD1A88</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/highgui/opencv_highgui.vcxproj">
+      <Project>E1015352-BC3B-3B96-B4ED-A19465332AC5</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/imgcodecs/opencv_imgcodecs.vcxproj">
+      <Project>604716F2-7971-385D-9061-7B7C092DA216</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/imgproc/opencv_imgproc.vcxproj">
+      <Project>A4A5E026-EDA3-39FC-BFBF-0BE754D94200</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/ml/opencv_ml.vcxproj">
+      <Project>375CE247-5C4A-31F1-A97D-6D4DFD5526AB</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/objdetect/opencv_objdetect.vcxproj">
+      <Project>F20CF292-6E02-3130-9A5F-B4F72C4B49BA</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/photo/opencv_photo.vcxproj">
+      <Project>2A995D45-F0BB-3AF3-8B62-ACE4FD2AF582</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/shape/opencv_shape.vcxproj">
+      <Project>8551416B-C781-3456-A702-6D5F328E461A</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/stitching/opencv_stitching.vcxproj">
+      <Project>BFF1D5FB-3C02-3B0F-B183-D43B297B6199</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/video/opencv_video.vcxproj">
+      <Project>7A9D4446-645A-3BC5-A7D2-5466625DB967</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/videoio/opencv_videoio.vcxproj">
+      <Project>168B8FCD-78C3-3BF8-B2EA-92876E16A735</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/videostab/opencv_videostab.vcxproj">
+      <Project>35ABFDFD-B160-3A03-99C2-BC811EA70128</Project>
+    </ProjectReference>
+    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/xfeatures2d/opencv_xfeatures2d.vcxproj">
+      <Project>E55CFFEF-7A19-3504-9D92-B37F69FAFFCB</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Src\StereoMatch.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
