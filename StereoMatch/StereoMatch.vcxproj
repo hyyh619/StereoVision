@@ -239,7 +239,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Src\StereoMatch.cpp" />
+    <ClCompile Include="..\Src\Stereo\StereoMatch.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

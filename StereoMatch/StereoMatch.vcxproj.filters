@@ -1,10 +1,5 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup>
-    <ClCompile Include="D:\hy_code\OpenCV\opencv\sources\samples\cpp\stereo_match.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="D:\hy_code\OpenCV\opencv\sources\samples\cpp\CMakeLists.txt" />
   </ItemGroup>
@@ -12,5 +7,10 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{457200DF-051B-33B6-A0B8-C9289F50C913}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Src\Stereo\StereoMatch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

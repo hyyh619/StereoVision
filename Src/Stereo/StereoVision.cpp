@@ -18,7 +18,6 @@
 #include <opencv2/imgcodecs.hpp>
 #include <opencv2/core/utility.hpp>
 
-#include "stdafx.h"
 #include "Config.h"
 #include "StereoVision.h"
 

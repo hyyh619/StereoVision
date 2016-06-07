@@ -124,7 +124,7 @@ void OnMouse(int event, int x, int y, int, void*)
         return;
 
     double q[4][4];
-    Mat _Q(4, 4, CV_64F, q);
+    Mat    _Q(4, 4, CV_64F, q);
     g_Q.convertTo(_Q, CV_64F);
 
     // Benet: we should multiply 16, because disparity value is multiplied by 16. See bm->compute.

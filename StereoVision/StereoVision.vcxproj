@@ -146,15 +146,15 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Src\StereoVision.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Src\Config.h" />
-    <ClInclude Include="..\Src\StereoVision.h" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="..\Data\extrinsics.yml" />
     <None Include="..\Data\intrinsics.yml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\Src\Stereo\StereoVision.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Src\Stereo\Config.h" />
+    <ClInclude Include="..\Src\Stereo\StereoVision.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
