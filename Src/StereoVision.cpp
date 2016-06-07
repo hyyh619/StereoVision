@@ -24,34 +24,39 @@
 
 using namespace cv;
 
-#define ALGORITHM_OPTION        "--algorithm="
-#define MAX_DISPARITY_OPTION    "--max-disparity="
-#define BLOCK_SIZE_OPTION       "--blocksize="
-#define SCALE_OPTION            "--scale="
+#define ALGORITHM_OPTION    "--algorithm="
+#define ALGORITHM_NAME_BM   "bm"
+#define ALGORITHM_NAME_SGBM "sgbm"
+#define ALGORITHM_NAME_HH   "hh"
+#define ALGORITHM_NAME_VAR  "var"
 
-const char  *g_windowName           = "StereoVision";  // Name shown in the GUI window.
-const char  *g_intrinsicFileName    = 0;
-const char  *g_extrinsicFileName    = 0;
-int         g_border                = 5;
-int         g_windowWidth           = 1280 + g_border * 4;
-int         g_windowHeight          = 720 + g_border * 4;
-int         g_cameraWidth           = 640;
-int         g_cameraHeight          = 360;
-Size        g_imgSize               = Size(g_cameraWidth, g_cameraHeight);
+#define MAX_DISPARITY_OPTION "--max-disparity="
+#define BLOCK_SIZE_OPTION    "--blocksize="
+#define SCALE_OPTION         "--scale="
 
-enAlgorithm g_algorithm             = STEREO_SGBM;
-int         g_SADWindowSize         = 0;
-int         g_numDisparities        = 0;
-float       g_scale                 = 1.f;
-char        *g_algorithmName        = NULL;
-Ptr<StereoBM>   g_bm                = StereoBM::create(16, 9);
-Ptr<StereoSGBM> g_sgbm              = StereoSGBM::create(0, 16, 3);
+const char *g_windowName        = "StereoVision";      // Name shown in the GUI window.
+const char *g_intrinsicFileName = 0;
+const char *g_extrinsicFileName = 0;
+int        g_border             = 5;
+int        g_windowWidth        = 1280 + g_border * 4;
+int        g_windowHeight       = 720 + g_border * 4;
+int        g_cameraWidth        = 640;
+int        g_cameraHeight       = 360;
+Size       g_imgSize            = Size(g_cameraWidth, g_cameraHeight);
+
+enAlgorithm     g_algorithm      = STEREO_SGBM;
+int             g_SADWindowSize  = 0;
+int             g_numDisparities = 0;
+float           g_scale          = 1.f;
+char            *g_algorithmName = NULL;
+Ptr<StereoBM>   g_bm             = StereoBM::create(16, 9);
+Ptr<StereoSGBM> g_sgbm           = StereoSGBM::create(0, 16, 3);
 Mat             g_R1, g_P1, g_R2, g_P2, g_Q;
 Rect            g_roi1, g_roi2;
 Mat             g_map11, g_map12, g_map21, g_map22;
 
 // Mouse event handler. Called automatically by OpenCV when the user clicks in the GUI window.
-void onMouse(int event, int x, int y, int, void*)
+void OnMouse(int event, int x, int y, int, void*)
 {
     // We only care about left-mouse clicks, not right-mouse clicks or mouse movement.
     if (event != CV_EVENT_LBUTTONDOWN)
@@ -70,10 +75,10 @@ bool ParseCmd(int argc, char *argv[])
         if (strncmp(argv[i], ALGORITHM_OPTION, strlen(ALGORITHM_OPTION)) == 0)
         {
             g_algorithmName = argv[i] + strlen(ALGORITHM_OPTION);
-            g_algorithm = strcmp(g_algorithmName, "bm") == 0 ? STEREO_BM :
-                strcmp(g_algorithmName, "sgbm") == 0 ? STEREO_SGBM :
-                strcmp(g_algorithmName, "hh") == 0 ? STEREO_HH :
-                strcmp(g_algorithmName, "var") == 0 ? STEREO_VAR : STEREO_VALID;
+            g_algorithm     = strcmp(g_algorithmName, ALGORITHM_NAME_BM) == 0 ? STEREO_BM :
+                              strcmp(g_algorithmName, ALGORITHM_NAME_SGBM) == 0 ? STEREO_SGBM :
+                              strcmp(g_algorithmName, ALGORITHM_NAME_HH) == 0 ? STEREO_HH :
+                              strcmp(g_algorithmName, ALGORITHM_NAME_VAR) == 0 ? STEREO_VAR : STEREO_VALID;
             if (g_algorithm < 0)
             {
                 printf("Command-line parameter error: Unknown stereo algorithm\n\n");
@@ -172,7 +177,7 @@ bool LoadCameraParameters()
 
 bool InitAlgorithm(Mat img)
 {
-    g_numDisparities = g_numDisparities > 0 ? g_numDisparities : ((g_imgSize.width / 8) + 15) & -16;
+    g_numDisparities = g_numDisparities > 0 ? g_numDisparities : ((g_imgSize.width / 8) + 15) & - 16;
 
     g_bm->setROI1(g_roi1);
     g_bm->setROI2(g_roi2);
@@ -192,8 +197,8 @@ bool InitAlgorithm(Mat img)
 
     int cn = img.channels();
 
-    g_sgbm->setP1(8 * cn*sgbmWinSize*sgbmWinSize);
-    g_sgbm->setP2(32 * cn*sgbmWinSize*sgbmWinSize);
+    g_sgbm->setP1(8 * cn * sgbmWinSize * sgbmWinSize);
+    g_sgbm->setP2(32 * cn * sgbmWinSize * sgbmWinSize);
     g_sgbm->setMinDisparity(0);
     g_sgbm->setNumDisparities(g_numDisparities);
     g_sgbm->setUniquenessRatio(10);
@@ -205,16 +210,16 @@ bool InitAlgorithm(Mat img)
     return true;
 }
 
-int main(int argc, char* argv[])
+int main(int argc, char *argv[])
 {
-    VideoCapture    videoCapture1;
-    VideoCapture    videoCapture2;
-    Size            g_imgSize = Size(g_cameraWidth, g_cameraHeight);
-    int             i = 0;
+    VideoCapture videoCapture1;
+    VideoCapture videoCapture2;
+    Size         g_imgSize = Size(g_cameraWidth, g_cameraHeight);
+    int          i         = 0;
 
 #if SAVE_CAMERA_FRAME
-    CvVideoWriter   *writer1 = cvCreateVideoWriter("video1.avi", -1, 25, cvSize(g_cameraWidth, g_cameraHeight));
-    CvVideoWriter   *writer2 = cvCreateVideoWriter("video2.avi", -1, 25, cvSize(g_cameraWidth, g_cameraHeight));
+    CvVideoWriter *writer1 = cvCreateVideoWriter("video1.avi", -1, 25, cvSize(g_cameraWidth, g_cameraHeight));
+    CvVideoWriter *writer2 = cvCreateVideoWriter("video2.avi", -1, 25, cvSize(g_cameraWidth, g_cameraHeight));
 #endif
 
     if (!ParseCmd(argc, argv))
@@ -242,7 +247,7 @@ int main(int argc, char* argv[])
     resizeWindow(g_windowName, g_windowWidth, g_windowHeight);
 
     // Get OpenCV to automatically call my "onMouse()" function when the user clicks in the GUI window.
-    setMouseCallback(g_windowName, onMouse, 0);
+    setMouseCallback(g_windowName, OnMouse, 0);
 
     Mat videoFrame;
     videoCapture1 >> videoFrame;
@@ -251,10 +256,10 @@ int main(int argc, char* argv[])
 
     while (1)
     {
-        Mat     videoFrame1;
-        Mat     videoFrame2;
-        Rect    dstRC;
-        Mat     dstROI;
+        Mat  videoFrame1;
+        Mat  videoFrame2;
+        Rect dstRC;
+        Mat  dstROI;
 
         videoCapture1 >> videoFrame1;
         videoCapture2 >> videoFrame2;
@@ -265,8 +270,8 @@ int main(int argc, char* argv[])
         }
 
 #if SAVE_CAMERA_FRAME
-        IplImage  *pTmp1 = &IplImage(videoFrame1);
-        IplImage  *pTmp2 = &IplImage(videoFrame2);
+        IplImage *pTmp1 = &IplImage(videoFrame1);
+        IplImage *pTmp2 = &IplImage(videoFrame2);
         cvWriteFrame(writer1, pTmp1);
         cvWriteFrame(writer2, pTmp2);
 #endif
@@ -274,12 +279,12 @@ int main(int argc, char* argv[])
         Mat displayFrame = Mat(Size(g_windowWidth, g_windowHeight), CV_8UC3);
 
         // Get the destination ROI (and make sure it is within the image!).
-        dstRC = Rect(g_border, g_border, g_cameraWidth, g_cameraHeight);
+        dstRC  = Rect(g_border, g_border, g_cameraWidth, g_cameraHeight);
         dstROI = displayFrame(dstRC);
         videoFrame1.copyTo(dstROI);
 
         // Get the destination ROI (and make sure it is within the image!).
-        dstRC = Rect(g_cameraWidth + g_border * 2, g_border, g_cameraWidth, g_cameraHeight);
+        dstRC  = Rect(g_cameraWidth + g_border * 2, g_border, g_cameraWidth, g_cameraHeight);
         dstROI = displayFrame(dstRC);
         videoFrame2.copyTo(dstROI);
 
@@ -307,17 +312,17 @@ int main(int argc, char* argv[])
         printf("#%d---Time elapsed: %fms\n", ++i, t * 1000 / getTickFrequency());
 
         if (g_algorithm != STEREO_VAR)
-            disp.convertTo(disp8, CV_8U, 255 / (g_numDisparities*16.));
+            disp.convertTo(disp8, CV_8U, 255 / (g_numDisparities * 16.));
         else
             disp.convertTo(disp8, CV_8U);
 
         imwrite("hy.jpg", disp8);
 
         // Get the destination ROI (and make sure it is within the image!).
-        dstRC = Rect(g_border, g_border * 2 + g_cameraHeight, g_cameraWidth, g_cameraHeight);
+        dstRC  = Rect(g_border, g_border * 2 + g_cameraHeight, g_cameraWidth, g_cameraHeight);
         dstROI = displayFrame(dstRC);
         Mat dispColor;
-        //disp8.convertTo(dispColor, displayFrame.type());
+        // disp8.convertTo(dispColor, displayFrame.type());
         cvtColor(disp8, dispColor, CV_GRAY2BGR);
         dispColor.copyTo(dstROI);
 
@@ -332,11 +337,12 @@ int main(int argc, char* argv[])
             // Quit the program!
             break;
         }
+
 #if SAVE_CAMERA_FRAME
         else if (keypress == VK_SPACE)
         {
             static int x = 0;
-            char buf[128];
+            char       buf[128];
 
             x++;
 
