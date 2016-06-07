@@ -146,14 +146,11 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Src\stdafx.cpp" />
     <ClCompile Include="..\Src\StereoVision.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Src\Config.h" />
-    <ClInclude Include="..\Src\stdafx.h" />
     <ClInclude Include="..\Src\StereoVision.h" />
-    <ClInclude Include="..\Src\targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Data\extrinsics.yml" />
