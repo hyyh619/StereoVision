@@ -19,11 +19,17 @@ using namespace std;
 
 #define SAVE_XYZ_FILTER 1
 
+char *g_algorithmName = NULL;
+char *g_outputPath    = NULL;
+int  g_width          = 0;
+int  g_height         = 0;
+Mat  g_disp;
+Mat  g_Q;
 
-Mat g_disp;
-Mat g_Q;
-
-void SaveDisp(const char *filename, const Mat &mat);
+void SaveDispData(const char *filename, const char *postfixName, const Mat &mat);
+void SaveXYZData(const char *filename, const char *postfixName, const Mat &mat);
+void SavePic(const char *postfixName, Mat &disp8);
+void SaveTimeCost(const char *postfixName, int64 time);
 void Gray2Color(CvMat *pGrayMat, CvMat *pColorMat);
 
 static void PrintHelp()
@@ -33,31 +39,6 @@ static void PrintHelp()
          "[--max-disparity=<max_disparity>] [--scale=scale_factor>] [-i <intrinsic_filename>] [-e <extrinsic_filename>]\n"
          "[--no-display] [-o <disparity_image>] [-p <point_cloud_file>]\n"
          "[--path outputPath] [--left left] [--right right]");
-}
-
-static void SaveXYZ(const char *filename, const Mat &mat)
-{
-#if SAVE_XYZ_FILTER
-    const double max_z = 1.0e4;
-#endif
-    FILE *fp = fopen(filename, "wt");
-
-    for (int y = 0; y < mat.rows; y++)
-    {
-        for (int x = 0; x < mat.cols; x++)
-        {
-            Vec3f point = mat.at<Vec3f>(y, x);
-
-#if SAVE_XYZ_FILTER
-            if (fabs(point[2] - max_z) < FLT_EPSILON || fabs(point[2]) > max_z)
-                continue;
-#endif
-
-            fprintf(fp, "%f %f %f\n", point[0], point[1], point[2]);
-        }
-    }
-
-    fclose(fp);
 }
 
 void AddFileList(const char *lpPath, const char *filePrefix, vector<char*> &fileList)
@@ -129,6 +110,7 @@ void OnMouse(int event, int x, int y, int, void*)
 
     double q[4][4];
     Mat    _Q(4, 4, CV_64F, q);
+
     g_Q.convertTo(_Q, CV_64F);
 
     // Benet: we should multiply 16, because disparity value is multiplied by 16. See bm->compute.
@@ -140,21 +122,9 @@ void OnMouse(int event, int x, int y, int, void*)
 }
 
 
+
 int main(int argc, char **argv)
 {
-    char       strFileName[TQC_MAX_PATH];
-    const char *algorithm_opt = "--algorithm=";
-    const char *maxdisp_opt   = "--max-disparity=";
-    const char *blocksize_opt = "--blocksize=";
-    const char *nodisplay_opt = "--no-display";
-    const char *scale_opt     = "--scale=";
-
-    if (argc < 3)
-    {
-        PrintHelp();
-        return 0;
-    }
-
     const char    *leftFilename         = 0;
     const char    *rightFilename        = 0;
     const char    *intrinsic_filename   = 0;
@@ -163,7 +133,6 @@ int main(int argc, char **argv)
     const char    *point_cloud_filename = 0;
     const char    *leftPrefix           = NULL;
     const char    *rightPrefix          = NULL;
-    const char    *outputPath           = NULL;
     vector<char*> fileList1;
     vector<char*> fileList2;
 
@@ -172,10 +141,15 @@ int main(int argc, char **argv)
     int   numberOfDisparities = 0;
     bool  no_display          = false;
     float scale               = 1.f;
-    char  *algorithmName;
 
     Ptr<StereoBM>   bm   = StereoBM::create(16, 9);
     Ptr<StereoSGBM> sgbm = StereoSGBM::create(0, 16, 3);
+
+    if (argc < 3)
+    {
+        PrintHelp();
+        return 0;
+    }
 
     for (int i = 1; i < argc; i++)
     {
@@ -186,17 +160,13 @@ int main(int argc, char **argv)
             else
                 rightFilename = argv[i];
         }
-        else if (strncmp(argv[i], algorithm_opt, strlen(algorithm_opt)) == 0)
+        else if (strncmp(argv[i], ALGORITHM_OPTION, strlen(ALGORITHM_OPTION)) == 0)
         {
-            algorithmName = argv[i] + strlen(algorithm_opt);
-            alg           = strcmp(algorithmName, "bm") == 0 ? STEREO_BM :
-                            strcmp(algorithmName, "sgbm") == 0 ? STEREO_SGBM :
-                            strcmp(algorithmName, "hh") == 0 ? STEREO_HH :
-                            strcmp(algorithmName, "var") == 0 ? STEREO_VAR : -1;
-            alg = strcmp(algorithmName, ALGORITHM_NAME_BM) == 0 ? STEREO_BM :
-                  strcmp(algorithmName, ALGORITHM_NAME_SGBM) == 0 ? STEREO_SGBM :
-                  strcmp(algorithmName, ALGORITHM_NAME_HH) == 0 ? STEREO_HH :
-                  strcmp(algorithmName, ALGORITHM_NAME_VAR) == 0 ? STEREO_VAR : STEREO_VALID;
+            g_algorithmName = argv[i] + strlen(ALGORITHM_OPTION);
+            alg             = strcmp(g_algorithmName, ALGORITHM_NAME_BM) == 0 ? STEREO_BM :
+                              strcmp(g_algorithmName, ALGORITHM_NAME_SGBM) == 0 ? STEREO_SGBM :
+                              strcmp(g_algorithmName, ALGORITHM_NAME_HH) == 0 ? STEREO_HH :
+                              strcmp(g_algorithmName, ALGORITHM_NAME_VAR) == 0 ? STEREO_VAR : STEREO_VALID;
             if (alg < 0)
             {
                 LOGE("Command-line parameter error: Unknown stereo algorithm\n\n");
@@ -204,9 +174,9 @@ int main(int argc, char **argv)
                 return -1;
             }
         }
-        else if (strncmp(argv[i], maxdisp_opt, strlen(maxdisp_opt)) == 0)
+        else if (strncmp(argv[i], MAX_DISPARITY_OPTION, strlen(MAX_DISPARITY_OPTION)) == 0)
         {
-            if (sscanf(argv[i] + strlen(maxdisp_opt), "%d", &numberOfDisparities) != 1 ||
+            if (sscanf(argv[i] + strlen(MAX_DISPARITY_OPTION), "%d", &numberOfDisparities) != 1 ||
                 numberOfDisparities < 1 || numberOfDisparities % 16 != 0)
             {
                 LOGE("Command-line parameter error: The max disparity (--maxdisparity=<...>) must be a positive integer divisible by 16\n");
@@ -214,24 +184,24 @@ int main(int argc, char **argv)
                 return -1;
             }
         }
-        else if (strncmp(argv[i], blocksize_opt, strlen(blocksize_opt)) == 0)
+        else if (strncmp(argv[i], BLOCK_SIZE_OPTION, strlen(BLOCK_SIZE_OPTION)) == 0)
         {
-            if (sscanf(argv[i] + strlen(blocksize_opt), "%d", &SADWindowSize) != 1 ||
+            if (sscanf(argv[i] + strlen(BLOCK_SIZE_OPTION), "%d", &SADWindowSize) != 1 ||
                 SADWindowSize < 1 || SADWindowSize % 2 != 1)
             {
                 LOGE("Command-line parameter error: The block size (--blocksize=<...>) must be a positive odd number\n");
                 return -1;
             }
         }
-        else if (strncmp(argv[i], scale_opt, strlen(scale_opt)) == 0)
+        else if (strncmp(argv[i], SCALE_OPTION, strlen(SCALE_OPTION)) == 0)
         {
-            if (sscanf(argv[i] + strlen(scale_opt), "%f", &scale) != 1 || scale < 0)
+            if (sscanf(argv[i] + strlen(SCALE_OPTION), "%f", &scale) != 1 || scale < 0)
             {
                 LOGE("Command-line parameter error: The scale factor (--scale=<...>) must be a positive floating-point number\n");
                 return -1;
             }
         }
-        else if (strcmp(argv[i], nodisplay_opt) == 0)
+        else if (strcmp(argv[i], NO_DISPLAY_OPTION) == 0)
             no_display = true;
         else if (strcmp(argv[i], "-i") == 0)
             intrinsic_filename = argv[++i];
@@ -251,7 +221,7 @@ int main(int argc, char **argv)
         }
         else if (strcmp(argv[i], "--path") == 0)
         {
-            outputPath = argv[++i];
+            g_outputPath = argv[++i];
         }
         else
         {
@@ -273,7 +243,7 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    if (extrinsic_filename == 0 && point_cloud_filename && outputPath)
+    if (extrinsic_filename == 0 && point_cloud_filename && g_outputPath)
     {
         LOGE("Command-line parameter error: extrinsic and intrinsic parameters must be specified to compute the point cloud\n");
         return -1;
@@ -296,6 +266,23 @@ int main(int argc, char **argv)
         Mat img1       = imread(fileList1.at(i), color_mode);
         Mat img2       = imread(fileList2.at(i), color_mode);
 
+        char   path[TQC_MAX_PATH];
+        char   filePre[TQC_MAX_PATH];
+        char   *leftFilePre = fileList1.at(i);
+        size_t len          = strlen(leftFilePre) - 1;
+        size_t orgLen       = len;
+
+        memset(path, 0, TQC_MAX_PATH);
+        memset(filePre, 0, TQC_MAX_PATH);
+
+        while (leftFilePre[len] != '\\')
+        {
+            len--;
+        }
+
+        memcpy(path, leftFilePre, len + 1);
+        memcpy(filePre, &leftFilePre[len + 1], orgLen - len);
+
         if (img1.empty())
         {
             LOGE("Command-line parameter error: could not load the first input image file\n");
@@ -308,6 +295,9 @@ int main(int argc, char **argv)
             return -1;
         }
 
+        // Begin time record.
+        int64 t = getTickCount();
+
         if (scale != 1.f)
         {
             Mat temp1, temp2;
@@ -318,7 +308,10 @@ int main(int argc, char **argv)
             img2 = temp2;
         }
 
-        Size img_size = img1.size();
+        Size imgSize = img1.size();
+
+        g_width  = imgSize.width;
+        g_height = imgSize.height;
 
         Rect roi1, roi2;
         Mat  Q;
@@ -358,11 +351,11 @@ int main(int argc, char **argv)
                 Rodrigues(R, R);
             }
 
-            stereoRectify(M1, D1, M2, D2, img_size, R, T, R1, R2, P1, P2, Q, CALIB_ZERO_DISPARITY, -1, img_size, &roi1, &roi2);
+            stereoRectify(M1, D1, M2, D2, imgSize, R, T, R1, R2, P1, P2, Q, CALIB_ZERO_DISPARITY, -1, imgSize, &roi1, &roi2);
 
             Mat map11, map12, map21, map22;
-            initUndistortRectifyMap(M1, D1, R1, P1, img_size, CV_16SC2, map11, map12);
-            initUndistortRectifyMap(M2, D2, R2, P2, img_size, CV_16SC2, map21, map22);
+            initUndistortRectifyMap(M1, D1, R1, P1, imgSize, CV_16SC2, map11, map12);
+            initUndistortRectifyMap(M2, D2, R2, P2, imgSize, CV_16SC2, map21, map22);
 
             Mat img1r, img2r;
             remap(img1, img1r, map11, map12, INTER_LINEAR);
@@ -374,7 +367,7 @@ int main(int argc, char **argv)
             g_Q = Q;
         }
 
-        numberOfDisparities = numberOfDisparities > 0 ? numberOfDisparities : ((img_size.width / 8) + 15) & - 16;
+        numberOfDisparities = numberOfDisparities > 0 ? numberOfDisparities : ((imgSize.width / 8) + 15) & - 16;
 
         bm->setROI1(roi1);
         bm->setROI2(roi2);
@@ -406,11 +399,6 @@ int main(int argc, char **argv)
 
         Mat disp;
         Mat disp8;
-        // Mat img1p, img2p, dispp;
-        // copyMakeBorder(img1, img1p, 0, 0, numberOfDisparities, 0, IPL_BORDER_REPLICATE);
-        // copyMakeBorder(img2, img2p, 0, 0, numberOfDisparities, 0, IPL_BORDER_REPLICATE);
-
-        int64 t = getTickCount();
 
         if (alg == STEREO_BM)
         {
@@ -421,10 +409,11 @@ int main(int argc, char **argv)
             sgbm->compute(img1, img2, disp);
         }
 
-        g_disp = disp;
-
+        // Output time cost.
         t = getTickCount() - t;
-        LOGE("#%d---Time elapsed: %fms\n", i, t * 1000 / getTickFrequency());
+        SaveTimeCost(filePre, t);
+
+        g_disp = disp;
 
         // disp = dispp.colRange(numberOfDisparities, img1p.cols);
         if (alg != STEREO_VAR)
@@ -433,15 +422,15 @@ int main(int argc, char **argv)
             disp.convertTo(disp8, CV_8U);
 
         // benet-add for matlab display
-        // if (disparity_filename)
-        // {
-        //    LOGE("Q Matrix: 0x%X\n", Q.type());
-        //    LOGE("%f %f %f %f\n", Q.at<double>(0, 0), Q.at<double>(0, 1), Q.at<double>(0, 2), Q.at<double>(0, 3));
-        //    LOGE("%f %f %f %f\n", Q.at<double>(1, 0), Q.at<double>(1, 1), Q.at<double>(1, 2), Q.at<double>(1, 3));
-        //    LOGE("%f %f %f %f\n", Q.at<double>(2, 0), Q.at<double>(2, 1), Q.at<double>(2, 2), Q.at<double>(2, 3));
-        //    LOGE("%f %f %f %f\n", Q.at<double>(3, 0), Q.at<double>(3, 1), Q.at<double>(3, 2), Q.at<double>(3, 3));
-        //    SaveDisp(disparity_filename, disp);
-        // }
+        if (disparity_filename)
+        {
+            // LOGE("Q Matrix: 0x%X\n", Q.type());
+            // LOGE("%f %f %f %f\n", Q.at<double>(0, 0), Q.at<double>(0, 1), Q.at<double>(0, 2), Q.at<double>(0, 3));
+            // LOGE("%f %f %f %f\n", Q.at<double>(1, 0), Q.at<double>(1, 1), Q.at<double>(1, 2), Q.at<double>(1, 3));
+            // LOGE("%f %f %f %f\n", Q.at<double>(2, 0), Q.at<double>(2, 1), Q.at<double>(2, 2), Q.at<double>(2, 3));
+            // LOGE("%f %f %f %f\n", Q.at<double>(3, 0), Q.at<double>(3, 1), Q.at<double>(3, 2), Q.at<double>(3, 3));
+            SaveDispData(disparity_filename, filePre, disp);
+        }
 
         if (!no_display)
         {
@@ -461,28 +450,17 @@ int main(int argc, char **argv)
             LOGE("\n");
         }
 
-        memset(strFileName, 0, TQC_MAX_PATH);
-        sprintf(strFileName, "%s_disp_%s.jpg", fileList1.at(i), algorithmName);
-        imwrite(strFileName, disp8);
-
         if (point_cloud_filename)
         {
             LOGE("storing the point cloud...");
             fflush(stdout);
             Mat xyz;
             reprojectImageTo3D(disp, xyz, Q, true);
-            SaveXYZ(point_cloud_filename, xyz);
+            SaveXYZData(point_cloud_filename, filePre, xyz);
             LOGE("\n");
         }
 
-        CvMat *pColorMat = cvCreateMat(disp8.rows, disp8.cols, CV_8UC3);
-        CvMat grayMat    = disp8;
-        Gray2Color(&grayMat, pColorMat);
-        memset(strFileName, 0, TQC_MAX_PATH);
-        sprintf(strFileName, "%s_color_%s.jpg", fileList1.at(i), algorithmName);
-        Mat colorMat1 = Mat(pColorMat->rows, pColorMat->cols, CV_8UC3, pColorMat->data.ptr);
-        imwrite(strFileName, colorMat1);
-        cvReleaseMat(&pColorMat);
+        SavePic(filePre, disp8);
     }
 
     for (int i = 0; i < fileList1.size(); i++)
@@ -509,9 +487,41 @@ int main(int argc, char **argv)
     return 0;
 }
 
-void SaveDisp(const char *filename, const Mat &mat)
+char* GetFileName(const char *fileName, const char *postfixName, const char *extName)
 {
-    FILE *fp = fopen(filename, "wt");
+    static char output[TQC_MAX_PATH];
+
+    memset(output, 0, TQC_MAX_PATH);
+    sprintf(output, "%s/%s_%s_%dx%d_%s.%s", g_outputPath, fileName, g_algorithmName, g_width, g_height, postfixName, extName);
+
+    return output;
+}
+
+void SavePic(const char *postfixName, Mat &disp8)
+{
+    char *strFileName;
+
+    // Save disparity picture
+    strFileName = GetFileName("disp", postfixName, "jpg");
+    imwrite(strFileName, disp8);
+
+    // Save color picture
+    CvMat *pColorMat = cvCreateMat(disp8.rows, disp8.cols, CV_8UC3);
+    CvMat grayMat = disp8;
+    Gray2Color(&grayMat, pColorMat);
+    strFileName = GetFileName("color", postfixName, "jpg");
+    Mat colorMat1 = Mat(pColorMat->rows, pColorMat->cols, CV_8UC3, pColorMat->data.ptr);
+    imwrite(strFileName, colorMat1);
+    cvReleaseMat(&pColorMat);
+}
+
+void SaveDispData(const char *filename, const char *postfixName, const Mat &mat)
+{
+    char *buf;
+    FILE *fp = NULL;
+
+    buf = GetFileName(filename, postfixName, "dat");
+    fp = fopen(buf, "wt");
 
     fprintf(fp, "%02d\n", mat.rows);
     fprintf(fp, "%02d\n", mat.cols);
@@ -522,6 +532,36 @@ void SaveDisp(const char *filename, const Mat &mat)
         {
             int disp = (int)mat.at<short>(y, x);    // 这里视差矩阵是CV_16S 格式的，故用 short 类型读取
             fprintf(fp, "%d %d %d\n", x, y, disp);  // 若视差矩阵是 CV_32F 格式，则用 float 类型读取
+        }
+    }
+
+    fclose(fp);
+}
+
+void SaveXYZData(const char *filename, const char *postfixName, const Mat &mat)
+{
+#if SAVE_XYZ_FILTER
+    const double max_z = 1.0e4;
+#endif
+
+    char *buf;
+    FILE *fp = NULL;
+
+    buf = GetFileName(filename, postfixName, "dat");
+    fp = fopen(buf, "wt");
+
+    for (int y = 0; y < mat.rows; y++)
+    {
+        for (int x = 0; x < mat.cols; x++)
+        {
+            Vec3f point = mat.at<Vec3f>(y, x);
+
+#if SAVE_XYZ_FILTER
+            if (fabs(point[2] - max_z) < FLT_EPSILON || fabs(point[2]) > max_z)
+                continue;
+#endif
+
+            fprintf(fp, "%f %f %f\n", point[0], point[1], point[2]);
         }
     }
 
@@ -561,4 +601,29 @@ void Gray2Color(CvMat *pGrayMat, CvMat *pColorMat)
         cvReleaseMat(&blue);
         cvReleaseMat(&mask);
     }
+}
+
+void SaveTimeCost(const char *postfixName, int64 time)
+{
+    static int i = 0;
+    char fileName[TQC_MAX_PATH];
+    char *strPicName = NULL;
+    FILE *fp = NULL;
+    float fTime = 0.0f;
+
+    fTime = (float)(time * 1000 / getTickFrequency());
+    LOGE("#%d---Time elapsed: %8.3fms\n", ++i, fTime);
+
+    memset(fileName, 0, TQC_MAX_PATH);
+    sprintf(fileName, "%s/time_cost.log", g_outputPath);
+
+    fp = fopen(fileName, "a+");
+    if (!fp)
+    {
+        LOGE("%s(%d): cannot open file %s", __FUNCTION__, __LINE__, fileName);
+        return;
+    }
+
+    strPicName = GetFileName("disp", postfixName, "jpg");
+    fprintf(fp, "%s: %8.3fms\n", strPicName, fTime);
 }

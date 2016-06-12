@@ -19,5 +19,6 @@ using namespace cv;
 #define MAX_DISPARITY_OPTION "--max-disparity="
 #define BLOCK_SIZE_OPTION    "--blocksize="
 #define SCALE_OPTION         "--scale="
+#define NO_DISPLAY_OPTION    "--no-display"
 
 #endif /* __CONFIG_H */
