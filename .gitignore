@@ -216,6 +216,5 @@ pip-log.txt
 .mr.developer.cfg
 
 
-Output/
-Output_CV300/
-Output_CV310/
+Output_Result/
+output/
