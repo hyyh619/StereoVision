@@ -21,44 +21,38 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Src\Stereo\StereoVision.cpp">
+    <ClCompile Include="..\..\Src\Stereo\StereoVision.cpp">
       <Filter>Stereo</Filter>
     </ClCompile>
-    <ClCompile Include="..\Src\Common\TqcUtils.cpp">
-      <Filter>Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Src\Os\Windows\TqcWindowsOS.cpp">
+    <ClCompile Include="..\..\Src\Os\Windows\TqcWindowsOS.cpp">
       <Filter>Os</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Common\TqcUtils.cpp">
+      <Filter>Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Src\Common\TqcLog.h">
+    <ClInclude Include="..\..\Src\Common\TqcLog.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\Stereo\StereoVision.h">
-      <Filter>Stereo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Src\Stereo\Config.h">
-      <Filter>Stereo</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Src\Common\TqcUtils.h">
+    <ClInclude Include="..\..\Src\Common\TqcUtils.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\Src\Os\TqcOs.h">
+    <ClInclude Include="..\..\Src\Stereo\StereoVision.h">
+      <Filter>Stereo</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Os\TqcOs.h">
       <Filter>Os</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Stereo\Config.h">
+      <Filter>Stereo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Data\Logitech_extrinsics.yml">
+    <None Include="..\..\Data\Logitech_extrinsics.yml">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\Data\Logitech_intrinsics.yml">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\Data\ThinkPad_extrinsics.yml">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\Data\ThinkPad_intrinsics.yml">
+    <None Include="..\..\Data\Logitech_intrinsics.yml">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

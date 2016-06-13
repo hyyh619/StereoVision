@@ -86,7 +86,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_CV310|x64'">
     <ClCompile>
       <AdditionalOptions> /bigobj %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>D:\hy_code\OpenCV\opencv\sources\modules\video\include;D:\hy_code\OpenCV\opencv\sources\modules\imgproc\include;D:\hy_code\OpenCV\opencv\sources\modules\core\include;D:\hy_code\OpenCV\opencv\sources\modules\hal\include;D:\hy_code\OpenCV\opencv\sources\modules\calib3d\include;D:\hy_code\OpenCV\opencv\sources\modules\features2d\include;D:\hy_code\OpenCV\opencv\sources\modules\highgui\include;D:\hy_code\OpenCV\opencv\sources\modules\videoio\include;D:\hy_code\OpenCV\opencv\sources\modules\imgcodecs\include;D:\hy_code\OpenCV\opencv\sources\modules\photo\include;D:\hy_code\OpenCV\opencv\sources\modules\ml\include;D:\hy_code\OpenCV\opencv\sources\modules\flann\include;D:\hy_code\OpenCV\opencv\sources\modules\objdetect\include;D:\hy_code\OpenCV\opencv\sources\modules\shape\include;D:\hy_code\OpenCV\opencv\sources\modules\videostab\include;D:\hy_code\OpenCV\opencv\sources\modules\stitching\include;D:\hy_code\OpenCV\opencv\sources\include;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\include;D:\hy_code\OpenCV\opencv\project\window;D:\hy_code\OpenCV\opencv_contrib-master\modules\xfeatures2d\include;../Src/Common;../Src/Os;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\hy_code\OpenCV\opencv\sources\modules\video\include;D:\hy_code\OpenCV\opencv\sources\modules\imgproc\include;D:\hy_code\OpenCV\opencv\sources\modules\core\include;D:\hy_code\OpenCV\opencv\sources\modules\hal\include;D:\hy_code\OpenCV\opencv\sources\modules\calib3d\include;D:\hy_code\OpenCV\opencv\sources\modules\features2d\include;D:\hy_code\OpenCV\opencv\sources\modules\highgui\include;D:\hy_code\OpenCV\opencv\sources\modules\videoio\include;D:\hy_code\OpenCV\opencv\sources\modules\imgcodecs\include;D:\hy_code\OpenCV\opencv\sources\modules\photo\include;D:\hy_code\OpenCV\opencv\sources\modules\ml\include;D:\hy_code\OpenCV\opencv\sources\modules\flann\include;D:\hy_code\OpenCV\opencv\sources\modules\objdetect\include;D:\hy_code\OpenCV\opencv\sources\modules\shape\include;D:\hy_code\OpenCV\opencv\sources\modules\videostab\include;D:\hy_code\OpenCV\opencv\sources\modules\stitching\include;D:\hy_code\OpenCV\opencv\sources\include;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\include;D:\hy_code\OpenCV\opencv\project\window;D:\hy_code\OpenCV\opencv_contrib-master\modules\xfeatures2d\include;../../Src/Common;../../Src/Os;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>
       </AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -121,8 +121,8 @@
     </Midl>
     <Link>
       <AdditionalOptions> /machine:x64 /debug %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;..\libs\Debug\opencv_stitching310d.lib;..\libs\Debug\opencv_videostab310d.lib;..\libs\Debug\opencv_objdetect310d.lib;..\libs\Debug\opencv_xfeatures2d310d.lib;..\libs\Debug\opencv_shape310d.lib;..\libs\Debug\opencv_video310d.lib;..\libs\Debug\opencv_photo310d.lib;..\libs\Debug\opencv_calib3d310d.lib;..\libs\Debug\opencv_features2d310d.lib;..\libs\Debug\opencv_flann310d.lib;..\libs\Debug\opencv_highgui310d.lib;..\libs\Debug\opencv_videoio310d.lib;..\libs\Debug\opencv_imgcodecs310d.lib;..\libs\Debug\opencv_imgproc310d.lib;..\libs\Debug\opencv_ml310d.lib;..\libs\Debug\opencv_core310d.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;opencv_stitching310d.lib;opencv_videostab310d.lib;opencv_objdetect310d.lib;opencv_xfeatures2d310d.lib;opencv_shape310d.lib;opencv_video310d.lib;opencv_photo310d.lib;opencv_calib3d310d.lib;opencv_features2d310d.lib;opencv_flann310d.lib;opencv_highgui310d.lib;opencv_videoio310d.lib;opencv_imgcodecs310d.lib;opencv_imgproc310d.lib;opencv_ml310d.lib;opencv_core310d.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../libs/Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImportLibrary>
@@ -139,7 +139,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_CV300|x64'">
     <ClCompile>
       <AdditionalOptions> /bigobj %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>D:\hy_code\OpenCV\opencv\sources\modules\video\include;D:\hy_code\OpenCV\opencv\sources\modules\imgproc\include;D:\hy_code\OpenCV\opencv\sources\modules\core\include;D:\hy_code\OpenCV\opencv\sources\modules\hal\include;D:\hy_code\OpenCV\opencv\sources\modules\calib3d\include;D:\hy_code\OpenCV\opencv\sources\modules\features2d\include;D:\hy_code\OpenCV\opencv\sources\modules\highgui\include;D:\hy_code\OpenCV\opencv\sources\modules\videoio\include;D:\hy_code\OpenCV\opencv\sources\modules\imgcodecs\include;D:\hy_code\OpenCV\opencv\sources\modules\photo\include;D:\hy_code\OpenCV\opencv\sources\modules\ml\include;D:\hy_code\OpenCV\opencv\sources\modules\flann\include;D:\hy_code\OpenCV\opencv\sources\modules\objdetect\include;D:\hy_code\OpenCV\opencv\sources\modules\shape\include;D:\hy_code\OpenCV\opencv\sources\modules\videostab\include;D:\hy_code\OpenCV\opencv\sources\modules\stitching\include;D:\hy_code\OpenCV\opencv\sources\include;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\include;D:\hy_code\OpenCV\opencv\project\window;D:\hy_code\OpenCV\opencv_contrib-master\modules\xfeatures2d\include;../Src/Common;../Src/Os;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\hy_code\OpenCV\opencv\sources\modules\video\include;D:\hy_code\OpenCV\opencv\sources\modules\imgproc\include;D:\hy_code\OpenCV\opencv\sources\modules\core\include;D:\hy_code\OpenCV\opencv\sources\modules\hal\include;D:\hy_code\OpenCV\opencv\sources\modules\calib3d\include;D:\hy_code\OpenCV\opencv\sources\modules\features2d\include;D:\hy_code\OpenCV\opencv\sources\modules\highgui\include;D:\hy_code\OpenCV\opencv\sources\modules\videoio\include;D:\hy_code\OpenCV\opencv\sources\modules\imgcodecs\include;D:\hy_code\OpenCV\opencv\sources\modules\photo\include;D:\hy_code\OpenCV\opencv\sources\modules\ml\include;D:\hy_code\OpenCV\opencv\sources\modules\flann\include;D:\hy_code\OpenCV\opencv\sources\modules\objdetect\include;D:\hy_code\OpenCV\opencv\sources\modules\shape\include;D:\hy_code\OpenCV\opencv\sources\modules\videostab\include;D:\hy_code\OpenCV\opencv\sources\modules\stitching\include;D:\hy_code\OpenCV\opencv\sources\include;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\include;D:\hy_code\OpenCV\opencv\project\window;D:\hy_code\OpenCV\opencv_contrib-master\modules\xfeatures2d\include;../../Src/Common;../../Src/Os;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>
       </AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
@@ -174,8 +174,8 @@
     </Midl>
     <Link>
       <AdditionalOptions> /machine:x64 /debug %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;..\libs\Debug\opencv_stitching300d.lib;..\libs\Debug\opencv_videostab300d.lib;..\libs\Debug\opencv_objdetect300d.lib;..\libs\Debug\opencv_xfeatures2d300d.lib;..\libs\Debug\opencv_shape300d.lib;..\libs\Debug\opencv_video300d.lib;..\libs\Debug\opencv_photo300d.lib;..\libs\Debug\opencv_calib3d300d.lib;..\libs\Debug\opencv_features2d300d.lib;..\libs\Debug\opencv_flann300d.lib;..\libs\Debug\opencv_highgui300d.lib;..\libs\Debug\opencv_videoio300d.lib;..\libs\Debug\opencv_imgcodecs300d.lib;..\libs\Debug\opencv_imgproc300d.lib;..\libs\Debug\opencv_ml300d.lib;..\libs\Debug\opencv_core300d.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;opencv_stitching300d.lib;opencv_videostab300d.lib;opencv_objdetect300d.lib;opencv_xfeatures2d300d.lib;opencv_shape300d.lib;opencv_video300d.lib;opencv_photo300d.lib;opencv_calib3d300d.lib;opencv_features2d300d.lib;opencv_flann300d.lib;opencv_highgui300d.lib;opencv_videoio300d.lib;opencv_imgcodecs300d.lib;opencv_imgproc300d.lib;opencv_ml300d.lib;opencv_core300d.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../libs/Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImportLibrary>
@@ -192,7 +192,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_CV310|x64'">
     <ClCompile>
       <AdditionalOptions> /bigobj %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>D:\hy_code\OpenCV\opencv\sources\modules\video\include;D:\hy_code\OpenCV\opencv\sources\modules\imgproc\include;D:\hy_code\OpenCV\opencv\sources\modules\core\include;D:\hy_code\OpenCV\opencv\sources\modules\hal\include;D:\hy_code\OpenCV\opencv\sources\modules\calib3d\include;D:\hy_code\OpenCV\opencv\sources\modules\features2d\include;D:\hy_code\OpenCV\opencv\sources\modules\highgui\include;D:\hy_code\OpenCV\opencv\sources\modules\videoio\include;D:\hy_code\OpenCV\opencv\sources\modules\imgcodecs\include;D:\hy_code\OpenCV\opencv\sources\modules\photo\include;D:\hy_code\OpenCV\opencv\sources\modules\ml\include;D:\hy_code\OpenCV\opencv\sources\modules\flann\include;D:\hy_code\OpenCV\opencv\sources\modules\objdetect\include;D:\hy_code\OpenCV\opencv\sources\modules\shape\include;D:\hy_code\OpenCV\opencv\sources\modules\videostab\include;D:\hy_code\OpenCV\opencv\sources\modules\stitching\include;D:\hy_code\OpenCV\opencv\sources\include;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\include;D:\hy_code\OpenCV\opencv\project\window;D:\hy_code\OpenCV\opencv_contrib-master\modules\xfeatures2d\include;../Src/Common;../Src/Os;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\hy_code\OpenCV\opencv\sources\modules\video\include;D:\hy_code\OpenCV\opencv\sources\modules\imgproc\include;D:\hy_code\OpenCV\opencv\sources\modules\core\include;D:\hy_code\OpenCV\opencv\sources\modules\hal\include;D:\hy_code\OpenCV\opencv\sources\modules\calib3d\include;D:\hy_code\OpenCV\opencv\sources\modules\features2d\include;D:\hy_code\OpenCV\opencv\sources\modules\highgui\include;D:\hy_code\OpenCV\opencv\sources\modules\videoio\include;D:\hy_code\OpenCV\opencv\sources\modules\imgcodecs\include;D:\hy_code\OpenCV\opencv\sources\modules\photo\include;D:\hy_code\OpenCV\opencv\sources\modules\ml\include;D:\hy_code\OpenCV\opencv\sources\modules\flann\include;D:\hy_code\OpenCV\opencv\sources\modules\objdetect\include;D:\hy_code\OpenCV\opencv\sources\modules\shape\include;D:\hy_code\OpenCV\opencv\sources\modules\videostab\include;D:\hy_code\OpenCV\opencv\sources\modules\stitching\include;D:\hy_code\OpenCV\opencv\sources\include;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\include;D:\hy_code\OpenCV\opencv\project\window;D:\hy_code\OpenCV\opencv_contrib-master\modules\xfeatures2d\include;../../Src/Common;../../Src/Os;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>
       </AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -226,8 +226,8 @@
     </Midl>
     <Link>
       <AdditionalOptions> /machine:x64 /debug %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\lib\intel64\ippicvmt.lib;..\libs\Release\opencv_stitching310.lib;..\libs\Release\opencv_videostab310.lib;..\libs\Release\opencv_objdetect310.lib;..\libs\Release\opencv_xfeatures2d310.lib;..\libs\Release\opencv_shape310.lib;..\libs\Release\opencv_video310.lib;..\libs\Release\opencv_photo310.lib;..\libs\Release\opencv_calib3d310.lib;..\libs\Release\opencv_features2d310.lib;..\libs\Release\opencv_flann310.lib;..\libs\Release\opencv_highgui310.lib;..\libs\Release\opencv_videoio310.lib;..\libs\Release\opencv_imgcodecs310.lib;..\libs\Release\opencv_imgproc310.lib;..\libs\Release\opencv_ml310.lib;..\libs\Release\opencv_core310.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;ippicvmt.lib;opencv_stitching310.lib;opencv_videostab310.lib;opencv_objdetect310.lib;opencv_xfeatures2d310.lib;opencv_shape310.lib;opencv_video310.lib;opencv_photo310.lib;opencv_calib3d310.lib;opencv_features2d310.lib;opencv_flann310.lib;opencv_highgui310.lib;opencv_videoio310.lib;opencv_imgcodecs310.lib;opencv_imgproc310.lib;opencv_ml310.lib;opencv_core310.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../libs/Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImportLibrary>
@@ -244,7 +244,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_CV300|x64'">
     <ClCompile>
       <AdditionalOptions> /bigobj %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>D:\hy_code\OpenCV\opencv\sources\modules\video\include;D:\hy_code\OpenCV\opencv\sources\modules\imgproc\include;D:\hy_code\OpenCV\opencv\sources\modules\core\include;D:\hy_code\OpenCV\opencv\sources\modules\hal\include;D:\hy_code\OpenCV\opencv\sources\modules\calib3d\include;D:\hy_code\OpenCV\opencv\sources\modules\features2d\include;D:\hy_code\OpenCV\opencv\sources\modules\highgui\include;D:\hy_code\OpenCV\opencv\sources\modules\videoio\include;D:\hy_code\OpenCV\opencv\sources\modules\imgcodecs\include;D:\hy_code\OpenCV\opencv\sources\modules\photo\include;D:\hy_code\OpenCV\opencv\sources\modules\ml\include;D:\hy_code\OpenCV\opencv\sources\modules\flann\include;D:\hy_code\OpenCV\opencv\sources\modules\objdetect\include;D:\hy_code\OpenCV\opencv\sources\modules\shape\include;D:\hy_code\OpenCV\opencv\sources\modules\videostab\include;D:\hy_code\OpenCV\opencv\sources\modules\stitching\include;D:\hy_code\OpenCV\opencv\sources\include;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\include;D:\hy_code\OpenCV\opencv\project\window;D:\hy_code\OpenCV\opencv_contrib-master\modules\xfeatures2d\include;../Src/Common;../Src/Os;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\hy_code\OpenCV\opencv\sources\modules\video\include;D:\hy_code\OpenCV\opencv\sources\modules\imgproc\include;D:\hy_code\OpenCV\opencv\sources\modules\core\include;D:\hy_code\OpenCV\opencv\sources\modules\hal\include;D:\hy_code\OpenCV\opencv\sources\modules\calib3d\include;D:\hy_code\OpenCV\opencv\sources\modules\features2d\include;D:\hy_code\OpenCV\opencv\sources\modules\highgui\include;D:\hy_code\OpenCV\opencv\sources\modules\videoio\include;D:\hy_code\OpenCV\opencv\sources\modules\imgcodecs\include;D:\hy_code\OpenCV\opencv\sources\modules\photo\include;D:\hy_code\OpenCV\opencv\sources\modules\ml\include;D:\hy_code\OpenCV\opencv\sources\modules\flann\include;D:\hy_code\OpenCV\opencv\sources\modules\objdetect\include;D:\hy_code\OpenCV\opencv\sources\modules\shape\include;D:\hy_code\OpenCV\opencv\sources\modules\videostab\include;D:\hy_code\OpenCV\opencv\sources\modules\stitching\include;D:\hy_code\OpenCV\opencv\sources\include;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\include;D:\hy_code\OpenCV\opencv\project\window;D:\hy_code\OpenCV\opencv_contrib-master\modules\xfeatures2d\include;../../Src/Common;../../Src/Os;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>
       </AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -278,8 +278,8 @@
     </Midl>
     <Link>
       <AdditionalOptions> /machine:x64 /debug %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\lib\intel64\ippicvmt.lib;..\libs\Release\opencv_stitching300.lib;..\libs\Release\opencv_videostab300.lib;..\libs\Release\opencv_objdetect300.lib;..\libs\Release\opencv_xfeatures2d300.lib;..\libs\Release\opencv_shape300.lib;..\libs\Release\opencv_video300.lib;..\libs\Release\opencv_photo300.lib;..\libs\Release\opencv_calib3d300.lib;..\libs\Release\opencv_features2d300.lib;..\libs\Release\opencv_flann300.lib;..\libs\Release\opencv_highgui300.lib;..\libs\Release\opencv_videoio300.lib;..\libs\Release\opencv_imgcodecs300.lib;..\libs\Release\opencv_imgproc300.lib;..\libs\Release\opencv_ml300.lib;..\libs\Release\opencv_core300.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;ippicvmt.lib;opencv_stitching300.lib;opencv_videostab300.lib;opencv_objdetect300.lib;opencv_xfeatures2d300.lib;opencv_shape300.lib;opencv_video300.lib;opencv_photo300.lib;opencv_calib3d300.lib;opencv_features2d300.lib;opencv_flann300.lib;opencv_highgui300.lib;opencv_videoio300.lib;opencv_imgcodecs300.lib;opencv_imgproc300.lib;opencv_ml300.lib;opencv_core300.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../libs/Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ImportLibrary>
@@ -406,13 +406,14 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Src\Stereo\StereoMatch.cpp" />
+    <ClInclude Include="..\..\Src\Common\TqcLog.h" />
+    <ClInclude Include="..\..\Src\Common\TqcUtils.h" />
+    <ClInclude Include="..\..\Src\Os\TqcOs.h" />
+    <ClInclude Include="..\..\Src\Stereo\Config.h" />
+    <ClInclude Include="..\..\Src\Stereo\StereoVision.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Src\Common\TqcLog.h" />
-    <ClInclude Include="..\Src\Common\TqcUtils.h" />
-    <ClInclude Include="..\Src\Stereo\Config.h" />
-    <ClInclude Include="..\Src\Stereo\StereoVision.h" />
+    <ClCompile Include="..\..\Src\Stereo\StereoMatch.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
