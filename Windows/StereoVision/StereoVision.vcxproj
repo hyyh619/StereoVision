@@ -128,9 +128,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_CV310|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)output\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)output\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_CV300|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)output\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)output\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_CV310|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -140,9 +144,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_CV310|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)output\$(Configuration)\</OutDir>
+    <IntDir>$(SolutionDir)output\$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_CV300|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(SolutionDir)output\$(Configuration)\$(ProjectName)\</IntDir>
+    <OutDir>$(SolutionDir)output\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_CV310|Win32'">
     <ClCompile>

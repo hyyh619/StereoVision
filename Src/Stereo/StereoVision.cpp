@@ -222,8 +222,8 @@ int main(int argc, char *argv[])
         return 0;
     }
 
-    videoCapture1.open(0);
-    videoCapture2.open(1);
+    videoCapture1.open(TQC_LOGICAL_CAM_LEFT_INDEX);
+    videoCapture2.open(TQC_LOGICAL_CAM_RIGHT_INDEX);
 
     // Try to set the camera resolution. Note that this only works for some cameras on
     // some computers and only for some drivers, so don't rely on it to work!
