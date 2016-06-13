@@ -313,6 +313,58 @@ int main(int argc, char **argv)
         g_width  = imgSize.width;
         g_height = imgSize.height;
 
+        if (0)
+        {
+            int k = 1;
+            Mat temp1 = img1;
+            Mat temp2 = img2;
+            int width = g_width;
+            int height = g_height;
+            char buf[TQC_MAX_PATH];
+
+            char   filePreRight[TQC_MAX_PATH];
+            char   *rightFilePre = fileList2.at(i);
+            size_t len = strlen(rightFilePre) - 1;
+            size_t orgLen = len;
+
+            memset(path, 0, TQC_MAX_PATH);
+            memset(filePreRight, 0, TQC_MAX_PATH);
+
+            while (leftFilePre[len] != '\\')
+            {
+                len--;
+            }
+
+            memcpy(path, leftFilePre, len + 1);
+            memcpy(filePreRight, &rightFilePre[len + 1], orgLen - len);
+
+            do
+            {
+                Mat tmpScale1;
+                Mat tmpScale2;
+
+                width /= 2;
+                height /= 2;
+
+                resize(temp1, tmpScale1, Size(), 0.5f, 0.5f, INTER_AREA);
+                resize(temp2, tmpScale2, Size(), 0.5f, 0.5f, INTER_AREA);
+
+                memset(buf, 0, 256);
+                sprintf(buf, "%s/%s_%d.jpg", g_outputPath, filePre, 20 + k);
+                imwrite(buf, temp1);
+
+                memset(buf, 0, 256);
+                sprintf(buf, "%s/%s_%d.jpg", g_outputPath, filePreRight, 20 + k);
+                imwrite(buf, temp2);
+
+                k++;
+
+                temp1 = tmpScale1;
+                temp2 = tmpScale2;
+            }
+            while (width > 32 && height > 32);
+        }
+
         Rect roi1, roi2;
         Mat  Q;
 
@@ -561,7 +613,8 @@ void SaveXYZData(const char *filename, const char *postfixName, const Mat &mat)
                 continue;
 #endif
 
-            fprintf(fp, "%f %f %f\n", point[0], point[1], point[2]);
+            // fprintf(fp, "%f %f %f\n", point[0], point[1], point[2]);
+            fprintf(fp, "%f %f %f\n", point[0]*16, point[1]*16, point[2]*16);
         }
     }
 
