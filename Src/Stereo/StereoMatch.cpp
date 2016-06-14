@@ -346,8 +346,8 @@ int main(int argc, char **argv)
                 width /= 2;
                 height /= 2;
 
-                resize(temp1, tmpScale1, Size(), 0.5f, 0.5f, INTER_AREA);
-                resize(temp2, tmpScale2, Size(), 0.5f, 0.5f, INTER_AREA);
+                resize(temp1, tmpScale1, Size(), 0.5f, 0.5f, INTER_LINEAR);
+                resize(temp2, tmpScale2, Size(), 0.5f, 0.5f, INTER_LINEAR);
 
                 memset(buf, 0, 256);
                 sprintf(buf, "%s/%s_%d.jpg", g_outputPath, filePre, 20 + k);
