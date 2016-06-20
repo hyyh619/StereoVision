@@ -9,22 +9,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Src\Stereo\StereoMatch.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
+    <ClCompile Include="..\..\Src\Stereo\StereoMatch.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Src\Common\TqcLog.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Src\Stereo\Config.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Src\Stereo\StereoVision.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Src\Common\TqcUtils.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
+    <ClInclude Include="..\..\Src\Common\TqcLog.h" />
+    <ClInclude Include="..\..\Src\Common\TqcUtils.h" />
+    <ClInclude Include="..\..\Src\Os\TqcOs.h" />
+    <ClInclude Include="..\..\Src\Stereo\Config.h" />
+    <ClInclude Include="..\..\Src\Stereo\StereoVision.h" />
   </ItemGroup>
 </Project>

@@ -31,6 +31,7 @@ void SaveXYZData(const char *filename, const char *postfixName, const Mat &mat);
 void SavePic(const char *postfixName, Mat &disp8);
 void SaveTimeCost(const char *postfixName, int64 time);
 void Gray2Color(CvMat *pGrayMat, CvMat *pColorMat);
+void FilterDisp(Mat &disp8);
 
 static void PrintHelp()
 {
@@ -403,6 +404,7 @@ int main(int argc, char **argv)
                 Rodrigues(R, R);
             }
 
+            Size calibrateImgSize = Size(640, 480);
             stereoRectify(M1, D1, M2, D2, imgSize, R, T, R1, R2, P1, P2, Q, CALIB_ZERO_DISPARITY, -1, imgSize, &roi1, &roi2);
 
             Mat map11, map12, map21, map22;
@@ -466,6 +468,9 @@ int main(int argc, char **argv)
         SaveTimeCost(filePre, t);
 
         g_disp = disp;
+
+        // Filter, if depth > 5m, we will skip this.
+        FilterDisp(disp);
 
         // disp = dispp.colRange(numberOfDisparities, img1p.cols);
         if (alg != STEREO_VAR)
@@ -679,4 +684,27 @@ void SaveTimeCost(const char *postfixName, int64 time)
 
     strPicName = GetFileName("disp", postfixName, "jpg");
     fprintf(fp, "%s: %8.3fms\n", strPicName, fTime);
+}
+
+void FilterDisp(Mat &disp)
+{
+    double q[4][4];
+    Mat    _Q(4, 4, CV_64F, q);
+
+    g_Q.convertTo(_Q, CV_64F);
+
+    for (int y = 0; y < disp.rows; y++)
+    {
+        for (int x = 0; x < disp.cols; x++)
+        {
+            int disp8 = (int)disp.at<short>(y, x);
+            double zc = ((q[2][3]) / (q[3][2] * disp8 + q[3][3])) * 16;
+
+            // Filter, if depth > 5m, we will skip this.
+            if (zc > 5000.0f )
+            {
+                disp.at<short>(y, x) = -16;
+            }
+        }
+    }
 }
