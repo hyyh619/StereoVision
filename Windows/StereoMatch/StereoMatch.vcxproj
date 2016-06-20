@@ -244,7 +244,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_CV300|x64'">
     <ClCompile>
       <AdditionalOptions> /bigobj %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>D:\hy_code\OpenCV\opencv\sources\modules\video\include;D:\hy_code\OpenCV\opencv\sources\modules\imgproc\include;D:\hy_code\OpenCV\opencv\sources\modules\core\include;D:\hy_code\OpenCV\opencv\sources\modules\hal\include;D:\hy_code\OpenCV\opencv\sources\modules\calib3d\include;D:\hy_code\OpenCV\opencv\sources\modules\features2d\include;D:\hy_code\OpenCV\opencv\sources\modules\highgui\include;D:\hy_code\OpenCV\opencv\sources\modules\videoio\include;D:\hy_code\OpenCV\opencv\sources\modules\imgcodecs\include;D:\hy_code\OpenCV\opencv\sources\modules\photo\include;D:\hy_code\OpenCV\opencv\sources\modules\ml\include;D:\hy_code\OpenCV\opencv\sources\modules\flann\include;D:\hy_code\OpenCV\opencv\sources\modules\objdetect\include;D:\hy_code\OpenCV\opencv\sources\modules\shape\include;D:\hy_code\OpenCV\opencv\sources\modules\videostab\include;D:\hy_code\OpenCV\opencv\sources\modules\stitching\include;D:\hy_code\OpenCV\opencv\sources\include;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\include;D:\hy_code\OpenCV\opencv\project\window;D:\hy_code\OpenCV\opencv_contrib-master\modules\xfeatures2d\include;../../Src/Common;../../Src/Os;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;../../Src/Common;../../Src/Os;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>
       </AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -293,118 +293,6 @@
       <LinkLibraryDependencies>false</LinkLibraryDependencies>
     </ProjectReference>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <CustomBuild Include="D:\hy_code\OpenCV\opencv\sources\samples\cpp\CMakeLists.txt">
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug_CV310|x64'">Building Custom Rule D:/hy_code/OpenCV/opencv/sources/samples/cpp/CMakeLists.txt</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug_CV300|x64'">Building Custom Rule D:/hy_code/OpenCV/opencv/sources/samples/cpp/CMakeLists.txt</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_CV310|x64'">setlocal
-"C:\Program Files (x86)\CMake\bin\cmake.exe" -HD:/hy_code/OpenCV/opencv/sources -BD:/hy_code/OpenCV/opencv/project/window --check-stamp-file D:\hy_code\OpenCV\opencv\project\window\samples\cpp\CMakeFiles\generate.stamp
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug_CV300|x64'">setlocal
-"C:\Program Files (x86)\CMake\bin\cmake.exe" -HD:/hy_code/OpenCV/opencv/sources -BD:/hy_code/OpenCV/opencv/project/window --check-stamp-file D:\hy_code\OpenCV\opencv\project\window\samples\cpp\CMakeFiles\generate.stamp
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug_CV310|x64'">D:/hy_code/OpenCV/opencv/sources/samples/cpp/CMakeLists.txt;D:\hy_code\OpenCV\opencv\sources\samples\cpp\CMakeLists.txt;D:\hy_code\OpenCV\opencv\sources\samples\cpp\tutorial_code\calib3d\real_time_pose_estimation\CMakeLists.txt;D:\hy_code\OpenCV\opencv\sources\samples\cpp\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug_CV300|x64'">D:/hy_code/OpenCV/opencv/sources/samples/cpp/CMakeLists.txt;D:\hy_code\OpenCV\opencv\sources\samples\cpp\CMakeLists.txt;D:\hy_code\OpenCV\opencv\sources\samples\cpp\tutorial_code\calib3d\real_time_pose_estimation\CMakeLists.txt;D:\hy_code\OpenCV\opencv\sources\samples\cpp\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_CV310|x64'">D:\hy_code\OpenCV\opencv\project\window\samples\cpp\CMakeFiles\generate.stamp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug_CV300|x64'">D:\hy_code\OpenCV\opencv\project\window\samples\cpp\CMakeFiles\generate.stamp</Outputs>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug_CV310|x64'">false</LinkObjects>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug_CV300|x64'">false</LinkObjects>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release_CV310|x64'">Building Custom Rule D:/hy_code/OpenCV/opencv/sources/samples/cpp/CMakeLists.txt</Message>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release_CV300|x64'">Building Custom Rule D:/hy_code/OpenCV/opencv/sources/samples/cpp/CMakeLists.txt</Message>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_CV310|x64'">setlocal
-"C:\Program Files (x86)\CMake\bin\cmake.exe" -HD:/hy_code/OpenCV/opencv/sources -BD:/hy_code/OpenCV/opencv/project/window --check-stamp-file D:\hy_code\OpenCV\opencv\project\window\samples\cpp\CMakeFiles\generate.stamp
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release_CV300|x64'">setlocal
-"C:\Program Files (x86)\CMake\bin\cmake.exe" -HD:/hy_code/OpenCV/opencv/sources -BD:/hy_code/OpenCV/opencv/project/window --check-stamp-file D:\hy_code\OpenCV\opencv\project\window\samples\cpp\CMakeFiles\generate.stamp
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release_CV310|x64'">D:/hy_code/OpenCV/opencv/sources/samples/cpp/CMakeLists.txt;D:\hy_code\OpenCV\opencv\sources\samples\cpp\CMakeLists.txt;D:\hy_code\OpenCV\opencv\sources\samples\cpp\tutorial_code\calib3d\real_time_pose_estimation\CMakeLists.txt;D:\hy_code\OpenCV\opencv\sources\samples\cpp\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release_CV300|x64'">D:/hy_code/OpenCV/opencv/sources/samples/cpp/CMakeLists.txt;D:\hy_code\OpenCV\opencv\sources\samples\cpp\CMakeLists.txt;D:\hy_code\OpenCV\opencv\sources\samples\cpp\tutorial_code\calib3d\real_time_pose_estimation\CMakeLists.txt;D:\hy_code\OpenCV\opencv\sources\samples\cpp\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_CV310|x64'">D:\hy_code\OpenCV\opencv\project\window\samples\cpp\CMakeFiles\generate.stamp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release_CV300|x64'">D:\hy_code\OpenCV\opencv\project\window\samples\cpp\CMakeFiles\generate.stamp</Outputs>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release_CV310|x64'">false</LinkObjects>
-      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release_CV300|x64'">false</LinkObjects>
-    </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/ZERO_CHECK.vcxproj">
-      <Project>C72EC369-2E0D-38FE-8158-C35B39AD773E</Project>
-    </ProjectReference>
-    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/calib3d/opencv_calib3d.vcxproj">
-      <Project>F5B50A7F-9190-3987-BF06-D05317DA3BE5</Project>
-    </ProjectReference>
-    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/core/opencv_core.vcxproj">
-      <Project>6D1F438A-6B46-35B4-A855-2D4B3B7A9F0A</Project>
-    </ProjectReference>
-    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/features2d/opencv_features2d.vcxproj">
-      <Project>5F48F293-4D0B-3DE0-84EA-99FD96FC0C05</Project>
-    </ProjectReference>
-    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/flann/opencv_flann.vcxproj">
-      <Project>DDDDABFC-AA07-3554-A33B-E52D0BB1B31A</Project>
-    </ProjectReference>
-    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/hal/opencv_hal.vcxproj">
-      <Project>BC072FF8-CA2E-3D79-BD69-5A71FBDD1A88</Project>
-    </ProjectReference>
-    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/highgui/opencv_highgui.vcxproj">
-      <Project>E1015352-BC3B-3B96-B4ED-A19465332AC5</Project>
-    </ProjectReference>
-    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/imgcodecs/opencv_imgcodecs.vcxproj">
-      <Project>604716F2-7971-385D-9061-7B7C092DA216</Project>
-    </ProjectReference>
-    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/imgproc/opencv_imgproc.vcxproj">
-      <Project>A4A5E026-EDA3-39FC-BFBF-0BE754D94200</Project>
-    </ProjectReference>
-    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/ml/opencv_ml.vcxproj">
-      <Project>375CE247-5C4A-31F1-A97D-6D4DFD5526AB</Project>
-    </ProjectReference>
-    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/objdetect/opencv_objdetect.vcxproj">
-      <Project>F20CF292-6E02-3130-9A5F-B4F72C4B49BA</Project>
-    </ProjectReference>
-    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/photo/opencv_photo.vcxproj">
-      <Project>2A995D45-F0BB-3AF3-8B62-ACE4FD2AF582</Project>
-    </ProjectReference>
-    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/shape/opencv_shape.vcxproj">
-      <Project>8551416B-C781-3456-A702-6D5F328E461A</Project>
-    </ProjectReference>
-    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/stitching/opencv_stitching.vcxproj">
-      <Project>BFF1D5FB-3C02-3B0F-B183-D43B297B6199</Project>
-    </ProjectReference>
-    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/video/opencv_video.vcxproj">
-      <Project>7A9D4446-645A-3BC5-A7D2-5466625DB967</Project>
-    </ProjectReference>
-    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/videoio/opencv_videoio.vcxproj">
-      <Project>168B8FCD-78C3-3BF8-B2EA-92876E16A735</Project>
-    </ProjectReference>
-    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/videostab/opencv_videostab.vcxproj">
-      <Project>35ABFDFD-B160-3A03-99C2-BC811EA70128</Project>
-    </ProjectReference>
-    <ProjectReference Include="D:/hy_code/OpenCV/opencv/project/window/modules/xfeatures2d/opencv_xfeatures2d.vcxproj">
-      <Project>E55CFFEF-7A19-3504-9D92-B37F69FAFFCB</Project>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Src\Common\TqcLog.h" />
     <ClInclude Include="..\..\Src\Common\TqcUtils.h" />
