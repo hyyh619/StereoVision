@@ -1,0 +1,8 @@
+StereoMatch:
+--no-display --scale=1.0 --max-disparity=64 --blocksize=5 --algorithm=sgbm -i ..\..\Data\Logitech_intrinsics.yml -e ..\..\Data\Logitech_extrinsics.yml --left ..\..\Data\outdoor\videoLeft_  --right ..\..\Data\outdoor\videoRight_ -p PointCloud --path ..\Output_Result\outdoor_sgbm_filter5 -o disparity
+
+StereoProjectPoints: 注意w/h参数是内角点数量，例如水平方向有9个棋盘格，那么内角点应该是8个。
+-w 8 -h 6 -s 27.5 -i ../../Data/Logitech_intrinsics.yml ../../Data/Chessboard/Chessboard.xml
+
+StereoVision:
+--algorithm=sgbm -i ..\Data\Logitech_intrinsics.yml -e ..\Data\Logitech_extrinsics.yml
