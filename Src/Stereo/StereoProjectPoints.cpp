@@ -206,17 +206,17 @@ int main(int argc, char **argv)
 
         remap(frame0, frame, mapxy, Mat(), INTER_LINEAR);
 
-        if (1)
-        {
-            namedWindow("src", 1);
-            imshow("src", frame0);
-            namedWindow("dst", 1);
-            imshow("dst", frame);
+        //if (1)
+        //{
+        //    namedWindow("src", 1);
+        //    imshow("src", frame0);
+        //    namedWindow("dst", 1);
+        //    imshow("dst", frame);
 
-            LOGE("press any key to continue...");
-            fflush(stdout);
-            waitKey();
-        }
+        //    LOGE("press any key to continue...");
+        //    fflush(stdout);
+        //    waitKey();
+        //}
 
         vector<Point2f> foundBoardCorners;
         boardFound = findChessboardCorners(frame, boardSize, foundBoardCorners);
