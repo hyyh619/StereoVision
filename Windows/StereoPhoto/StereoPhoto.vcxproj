@@ -57,7 +57,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>opencv_video300d.lib;opencv_photo300d.lib;opencv_highgui300d.lib;opencv_videoio300d.lib;opencv_imgcodecs300d.lib;opencv_imgproc300d.lib;opencv_core300d.lib;opencv_hal300d.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../libs/Debug;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../libs/CV_Debug;</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_CV300|x64'">
