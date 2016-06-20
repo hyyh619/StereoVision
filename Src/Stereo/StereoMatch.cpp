@@ -470,7 +470,8 @@ int main(int argc, char **argv)
         g_disp = disp;
 
         // Filter, if depth > 5m, we will skip this.
-        FilterDisp(disp);
+        // benet: disable Filter disparity value.
+        // FilterDisp(disp);
 
         // disp = dispp.colRange(numberOfDisparities, img1p.cols);
         if (alg != STEREO_VAR)
