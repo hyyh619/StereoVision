@@ -47,7 +47,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>D:\hy_code\OpenCV\opencv\sources\modules\video\include;D:\hy_code\OpenCV\opencv\sources\modules\imgproc\include;D:\hy_code\OpenCV\opencv\sources\modules\core\include;D:\hy_code\OpenCV\opencv\sources\modules\hal\include;D:\hy_code\OpenCV\opencv\sources\modules\calib3d\include;D:\hy_code\OpenCV\opencv\sources\modules\features2d\include;D:\hy_code\OpenCV\opencv\sources\modules\highgui\include;D:\hy_code\OpenCV\opencv\sources\modules\videoio\include;D:\hy_code\OpenCV\opencv\sources\modules\imgcodecs\include;D:\hy_code\OpenCV\opencv\sources\modules\photo\include;D:\hy_code\OpenCV\opencv\sources\modules\ml\include;D:\hy_code\OpenCV\opencv\sources\modules\flann\include;D:\hy_code\OpenCV\opencv\sources\modules\objdetect\include;D:\hy_code\OpenCV\opencv\sources\modules\shape\include;D:\hy_code\OpenCV\opencv\sources\modules\videostab\include;D:\hy_code\OpenCV\opencv\sources\modules\stitching\include;D:\hy_code\OpenCV\opencv\sources\include;D:\hy_code\OpenCV\opencv\sources\3rdparty\ippicv\unpack\ippicv_win\include;D:\hy_code\OpenCV\opencv\project\window;D:\hy_code\OpenCV\opencv_contrib-master\modules\xfeatures2d\include;../../Src/Common;../../Src/Os;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../include;../../Src/Common;../../Src/Os;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DisableSpecificWarnings>4819</DisableSpecificWarnings>
     </ClCompile>
     <Link>
