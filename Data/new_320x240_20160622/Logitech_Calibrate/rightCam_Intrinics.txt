@@ -1,0 +1,8 @@
+
+Calibration results after optimization (with uncertainties):
+
+Focal Length:          fc = [ 368.54002   369.27922 ] +/- [ 1.50777   1.51771 ]
+Principal point:       cc = [ 167.75432   132.49457 ] +/- [ 2.04674   1.64752 ]
+Skew:             alpha_c = [ 0.00000 ] +/- [ 0.00000  ]   => angle of pixel axes = 90.00000 +/- 0.00000 degrees
+Distortion:            kc = [ 0.01087   -0.23248   -0.00299   -0.00662  0.00000 ] +/- [ 0.01504   0.05620   0.00129   0.00195  0.00000 ]
+Pixel error:          err = [ 0.22213   0.21645 ]
