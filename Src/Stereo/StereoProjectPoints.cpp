@@ -90,10 +90,11 @@ int main(int argc, char **argv)
     Size            boardSize;
     vector<Point3f> box;
     vector<Point3f> boardPoints;
-    Mat             rvec;
-    Mat             tvec;
+    Mat             rvec = Mat(3, 1, CV_64F);
+    Mat             tvec = Mat(3, 1, CV_64F);
     double          squareSize = 1;
     Mat             shownFrame;
+    bool            bFoundCorner = false;
 
     for (int i = 1; i < argc; i++)
     {
@@ -154,6 +155,11 @@ int main(int argc, char **argv)
     else
     {
         capture.open(cameraId);
+
+        // Try to set the camera resolution. Note that this only works for some cameras on
+        // some computers and only for some drivers, so don't rely on it to work!
+        capture.set(CV_CAP_PROP_FRAME_WIDTH, 320);
+        capture.set(CV_CAP_PROP_FRAME_HEIGHT, 240);
     }
 
     if (!capture.isOpened() && imageList.empty())
@@ -168,6 +174,8 @@ int main(int argc, char **argv)
     for (int i = 0;; i++)
     {
         Mat frame0;
+        vector<Point2f> foundBoardCorners;
+
         if (!imageList.empty())
         {
             if (i < (int)imageList.size())
@@ -218,18 +226,40 @@ int main(int argc, char **argv)
         //    waitKey();
         //}
 
-        vector<Point2f> foundBoardCorners;
-        boardFound = findChessboardCorners(frame, boardSize, foundBoardCorners);
-
-        if (boardFound)
+        if (bFoundCorner)
         {
-            solvePnP(Mat(boardPoints), Mat(foundBoardCorners), cameraMat,
-                     distortMat, rvec, tvec, false);
+            boardFound = findChessboardCorners(frame, boardSize, foundBoardCorners);
+            if (boardFound)
+            {
+                solvePnP(Mat(boardPoints), Mat(foundBoardCorners), cameraMat,
+                    distortMat, rvec, tvec, false);
 
-            LOGE("rvec(%f, %f, %f), tvec(%f, %f, %f)", 
-                rvec.at<double>(0, 0), rvec.at<double>(1, 0), rvec.at<double>(2, 0),
-                tvec.at<double>(0, 0), tvec.at<double>(1, 0), tvec.at<double>(1, 0));
+                LOGE("rvec(%f, %f, %f), tvec(%f, %f, %f)",
+                    rvec.at<double>(0, 0), rvec.at<double>(1, 0), rvec.at<double>(2, 0),
+                    tvec.at<double>(0, 0), tvec.at<double>(1, 0), tvec.at<double>(1, 0));
 
+                frame.copyTo(shownFrame);
+                drawChessboardCorners(shownFrame, boardSize, Mat(foundBoardCorners), boardFound);
+                imshow("view", shownFrame);
+                // waitKey();
+            }
+        }
+        else
+        {
+            frame.copyTo(shownFrame);
+            imshow("view", shownFrame);
+        }
+
+
+        char keypress = waitKey(20);  // This is needed if you want to see anything!
+        if (keypress == VK_ESCAPE)
+        {
+            // Escape Key
+            // Quit the program!
+            break;
+        }
+        else if (keypress == VK_RETURN)
+        {
             vector<Point3f> tempobj(4);
             vector<Point2f> imgpt(4);
 
@@ -238,10 +268,17 @@ int main(int argc, char **argv)
             //tempobj[2] = Point3f(500.0f, 500.0f, 1000.0f);
             //tempobj[3] = Point3f(-500.0f, 500.0f, 1000.0f);
 
-            tempobj[0] = Point3f(-150.0f, -150.0f, 320.0f);
-            tempobj[1] = Point3f(150.0f, -150.0f, 320.0f);
-            tempobj[2] = Point3f(150.0f, 150.0f, 320.0f);
-            tempobj[3] = Point3f(-150.0f, 150.0f, 320.0f);
+            //// X, Y, Z: 40cm x 40cm x 1500cm
+            //tempobj[0] = Point3f(-200.0f, -200.0f, 1500.0f);
+            //tempobj[1] = Point3f(200.0f, -200.0f, 1500.0f);
+            //tempobj[2] = Point3f(200.0f, 200.0f, 1500.0f);
+            //tempobj[3] = Point3f(-200.0f, 200.0f, 1500.0f);
+
+            // X, Y, Z: 30cm x 30cm x 1000cm
+            tempobj[0] = Point3f(-150.0f, -150.0f, 1000.0f);
+            tempobj[1] = Point3f(150.0f, -150.0f, 1000.0f);
+            tempobj[2] = Point3f(150.0f, 150.0f, 1000.0f);
+            tempobj[3] = Point3f(-150.0f, 150.0f, 1000.0f);
 
             rvec.at<double>(0, 0) = 0.0f;
             rvec.at<double>(1, 0) = 0.0f;
@@ -252,11 +289,15 @@ int main(int argc, char **argv)
             tvec.at<double>(2, 0) = 0.0f;
 
             projectPoints((Mat)tempobj, rvec, tvec, cameraMat, Mat(), imgpt);
-        }
 
-        frame.copyTo(shownFrame);
-        drawChessboardCorners(shownFrame, boardSize, Mat(foundBoardCorners), boardFound);
-        imshow("view", shownFrame);
-        waitKey();
+            LOGE("image(%d, %d)", frame.cols, frame.rows);
+            LOGE("%f, %f", imgpt[0].x, imgpt[0].y);
+            LOGE("%f, %f", imgpt[1].x, imgpt[1].y);
+            LOGE("%f, %f", imgpt[2].x, imgpt[2].y);
+            LOGE("%f, %f", imgpt[3].x, imgpt[3].y);
+            LOGE("wxh(%f, %f)", imgpt[2].x - imgpt[0].x, imgpt[2].y - imgpt[0].y);
+
+            imwrite("projectPoints_320x240_1m.jpg", frame);
+        }
     }
 }
