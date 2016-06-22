@@ -301,6 +301,8 @@
     <ClInclude Include="..\..\Src\Stereo\StereoVision.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Src\Common\TqcUtils.cpp" />
+    <ClCompile Include="..\..\Src\Os\Windows\TqcWindowsOS.cpp" />
     <ClCompile Include="..\..\Src\Stereo\StereoMatch.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

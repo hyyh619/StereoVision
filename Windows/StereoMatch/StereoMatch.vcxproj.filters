@@ -4,15 +4,36 @@
     <Filter Include="Source Files">
       <UniqueIdentifier>{457200DF-051B-33B6-A0B8-C9289F50C913}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{f9285595-08a4-43e8-ab57-a6fc1286f74d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\Src\Stereo\StereoMatch.cpp" />
+    <ClCompile Include="..\..\Src\Stereo\StereoMatch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Common\TqcUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Src\Os\Windows\TqcWindowsOS.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\Src\Common\TqcLog.h" />
-    <ClInclude Include="..\..\Src\Common\TqcUtils.h" />
-    <ClInclude Include="..\..\Src\Os\TqcOs.h" />
-    <ClInclude Include="..\..\Src\Stereo\Config.h" />
-    <ClInclude Include="..\..\Src\Stereo\StereoVision.h" />
+    <ClInclude Include="..\..\Src\Stereo\Config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Stereo\StereoVision.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Common\TqcLog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Os\TqcOs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Src\Common\TqcUtils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
