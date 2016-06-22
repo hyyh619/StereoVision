@@ -6,3 +6,6 @@ StereoProjectPoints: ×¢Òâw/h²ÎÊıÊÇÄÚ½ÇµãÊıÁ¿£¬ÀıÈçË®Æ½·½ÏòÓĞ9¸öÆåÅÌ¸ñ£¬ÄÇÃ´ÄÚ½Çµ
 
 StereoVision:
 --algorithm=sgbm -i ..\Data\Logitech_intrinsics.yml -e ..\Data\Logitech_extrinsics.yml
+
+StereoResultDiff:
+--prefix D:\hy_code\OpenCV\projects\StereoVision\Windows\Output_Result\outdoor_sgbm\disp_sgbm_320x240_videoLeft_ D:\hy_code\OpenCV\projects\StereoVision\Windows\Output_Result\outdoor_sgbm_cameraCalibSize\disp_sgbm_320x240_videoLeft_
