@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StereoVision", "StereoVisio
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StereoProjectPoints", "StereoProjectPoints\StereoProjectPoints.vcxproj", "{117BE85D-6412-41B7-90C0-ADD51A67BA5B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StereoResultDiff", "StereoResultDiff\StereoResultDiff.vcxproj", "{5999CD95-EB30-48CE-B2F8-03FE34560D5C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_CV300|Mixed Platforms = Debug_CV300|Mixed Platforms
@@ -107,6 +109,26 @@ Global
 		{117BE85D-6412-41B7-90C0-ADD51A67BA5B}.Release_CV310|Win32.ActiveCfg = Release_CV300|x64
 		{117BE85D-6412-41B7-90C0-ADD51A67BA5B}.Release_CV310|x64.ActiveCfg = Release_CV300|x64
 		{117BE85D-6412-41B7-90C0-ADD51A67BA5B}.Release_CV310|x64.Build.0 = Release_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Debug_CV300|Mixed Platforms.ActiveCfg = Debug_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Debug_CV300|Mixed Platforms.Build.0 = Debug_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Debug_CV300|Win32.ActiveCfg = Debug_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Debug_CV300|x64.ActiveCfg = Debug_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Debug_CV300|x64.Build.0 = Debug_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Debug_CV310|Mixed Platforms.ActiveCfg = Debug_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Debug_CV310|Mixed Platforms.Build.0 = Debug_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Debug_CV310|Win32.ActiveCfg = Debug_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Debug_CV310|x64.ActiveCfg = Debug_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Debug_CV310|x64.Build.0 = Debug_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Release_CV300|Mixed Platforms.ActiveCfg = Release_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Release_CV300|Mixed Platforms.Build.0 = Release_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Release_CV300|Win32.ActiveCfg = Release_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Release_CV300|x64.ActiveCfg = Release_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Release_CV300|x64.Build.0 = Release_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Release_CV310|Mixed Platforms.ActiveCfg = Release_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Release_CV310|Mixed Platforms.Build.0 = Release_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Release_CV310|Win32.ActiveCfg = Release_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Release_CV310|x64.ActiveCfg = Release_CV300|x64
+		{5999CD95-EB30-48CE-B2F8-03FE34560D5C}.Release_CV310|x64.Build.0 = Release_CV300|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
