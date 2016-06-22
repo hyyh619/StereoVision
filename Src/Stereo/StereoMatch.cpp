@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <vector>
-#include <windows.h>
 
 #include "opencv2/calib3d/calib3d.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
@@ -25,6 +24,7 @@ int  g_width          = 0;
 int  g_height         = 0;
 Mat  g_disp;
 Mat  g_Q;
+Size g_cameraCalibSize = Size(640, 480);
 
 void SaveDispData(const char *filename, const char *postfixName, const Mat &mat);
 void SaveXYZData(const char *filename, const char *postfixName, const Mat &mat);
@@ -40,66 +40,6 @@ static void PrintHelp()
          "[--max-disparity=<max_disparity>] [--scale=scale_factor>] [-i <intrinsic_filename>] [-e <extrinsic_filename>]\n"
          "[--no-display] [-o <disparity_image>] [-p <point_cloud_file>]\n"
          "[--path outputPath] [--left left] [--right right]");
-}
-
-void AddFileList(const char *lpPath, const char *filePrefix, vector<char*> &fileList)
-{
-    char            szFind[TQC_MAX_PATH];
-    WIN32_FIND_DATA FindFileData;
-
-    strcpy(szFind, lpPath);
-    strcat(szFind, "*.*");
-
-    HANDLE hFind = ::FindFirstFile(szFind, &FindFileData);
-
-    if (INVALID_HANDLE_VALUE == hFind)
-        return;
-
-    while (TRUE)
-    {
-        if (FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-        {}
-        else
-        {
-            if (strstr(FindFileData.cFileName, filePrefix) && !strstr(FindFileData.cFileName, "disp"))
-            {
-                char *szFile;
-                szFile = (char*)malloc(TQC_MAX_PATH);
-
-                memset(szFile, 0, TQC_MAX_PATH);
-                strcpy(szFile, lpPath);
-                strcat(szFile, "");
-                strcat(szFile, FindFileData.cFileName);
-                fileList.push_back(szFile);
-            }
-        }
-
-        if (!FindNextFile(hFind, &FindFileData))
-            break;
-    }
-
-    FindClose(hFind);
-}
-
-void AddFileList(const char *filePrefix, vector<char*> &fileList)
-{
-    char   path[TQC_MAX_PATH];
-    char   filePre[TQC_MAX_PATH];
-    size_t len    = strlen(filePrefix) - 1;
-    size_t orgLen = len;
-
-    memset(path, 0, TQC_MAX_PATH);
-    memset(filePre, 0, TQC_MAX_PATH);
-
-    while (filePrefix[len] != '\\')
-    {
-        len--;
-    }
-
-    memcpy(path, filePrefix, len + 1);
-    memcpy(filePre, &filePrefix[len + 1], orgLen - len);
-
-    AddFileList(path, filePre, fileList);
 }
 
 // Mouse event handler. Called automatically by OpenCV when the user clicks in the GUI window.
@@ -121,8 +61,6 @@ void OnMouse(int event, int x, int y, int, void*)
 
     LOGE("(%d, %d, %d): %f, %f, %f\n", x, y, g_disp.at<short>(y, x), xc, yc, zc);
 }
-
-
 
 int main(int argc, char **argv)
 {
@@ -387,6 +325,24 @@ int main(int argc, char **argv)
 
             M1 *= scale;
             M2 *= scale;
+
+            if (imgSize != g_cameraCalibSize)
+            {
+                double sx = (double)imgSize.width / g_cameraCalibSize.width;
+                double sy = (double)imgSize.height / g_cameraCalibSize.height;
+
+                // adjust the camera matrix for the new resolution
+                M1.at<double>(0, 0) *= sx;
+                M1.at<double>(0, 2) *= sx;
+                M1.at<double>(1, 1) *= sy;
+                M1.at<double>(1, 2) *= sy;
+
+                // adjust the camera matrix for the new resolution
+                M2.at<double>(0, 0) *= sx;
+                M2.at<double>(0, 2) *= sx;
+                M2.at<double>(1, 1) *= sy;
+                M2.at<double>(1, 2) *= sy;
+            }
 
             fs.open(extrinsic_filename, FileStorage::READ);
             if (!fs.isOpened())
