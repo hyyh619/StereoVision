@@ -7,6 +7,7 @@
 #ifndef __TQC_UTILS_H
 #define __TQC_UTILS_H
 
+#include <vector>
 #include "TqcOs.h"
 
 #define TQC_MAX_PATH 256
@@ -28,5 +29,9 @@ protected:
 private:
     LockerHandle    m_handle;
 };
+
+#ifdef WIN32
+void AddFileList(const char *filePrefix, std::vector<char*> &fileList);
+#endif
 
 #endif /* __TQC_UTILS_H */

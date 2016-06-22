@@ -33,10 +33,12 @@ void SaveStereoPictures()
     memset(buf, 0, TQC_MAX_PATH);
     sprintf_s(buf, "videoLeft_%04d.jpg", counter);
     imwrite(buf, g_videoFrame1);
+    LOGE("Save image: %s", buf);
 
     memset(buf, 0, TQC_MAX_PATH);
     sprintf_s(buf, "videoRight_%04d.jpg", counter);
     imwrite(buf, g_videoFrame2);
+    LOGE("Save image: %s", buf);
 
     counter++;
 }
