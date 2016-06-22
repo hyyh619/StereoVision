@@ -18,13 +18,16 @@ using namespace std;
 
 #define SAVE_XYZ_FILTER 1
 
+bool g_bSaveDispData = false;
+bool g_bSavePCL      = false;
+
 char *g_algorithmName = NULL;
 char *g_outputPath    = NULL;
 int  g_width          = 0;
 int  g_height         = 0;
 Mat  g_disp;
 Mat  g_Q;
-Size g_cameraCalibSize = Size(640, 480);
+Size g_cameraCalibSize = Size(320, 240);
 
 void SaveDispData(const char *filename, const char *postfixName, const Mat &mat);
 void SaveXYZData(const char *filename, const char *postfixName, const Mat &mat);
@@ -64,14 +67,15 @@ void OnMouse(int event, int x, int y, int, void*)
 
 int main(int argc, char **argv)
 {
-    const char    *leftFilename         = 0;
-    const char    *rightFilename        = 0;
-    const char    *intrinsic_filename   = 0;
-    const char    *extrinsic_filename   = 0;
-    const char    *disparity_filename   = 0;
-    const char    *point_cloud_filename = 0;
-    const char    *leftPrefix           = NULL;
-    const char    *rightPrefix          = NULL;
+    const char *leftFilename         = 0;
+    const char *rightFilename        = 0;
+    const char *intrinsic_filename   = 0;
+    const char *extrinsic_filename   = 0;
+    const char *disparity_filename   = 0;
+    const char *point_cloud_filename = 0;
+    const char *leftPrefix           = NULL;
+    const char *rightPrefix          = NULL;
+
     vector<char*> fileList1;
     vector<char*> fileList2;
 
@@ -254,17 +258,17 @@ int main(int argc, char **argv)
 
         if (0)
         {
-            int k = 1;
-            Mat temp1 = img1;
-            Mat temp2 = img2;
-            int width = g_width;
-            int height = g_height;
+            int  k      = 1;
+            Mat  temp1  = img1;
+            Mat  temp2  = img2;
+            int  width  = g_width;
+            int  height = g_height;
             char buf[TQC_MAX_PATH];
 
             char   filePreRight[TQC_MAX_PATH];
             char   *rightFilePre = fileList2.at(i);
-            size_t len = strlen(rightFilePre) - 1;
-            size_t orgLen = len;
+            size_t len           = strlen(rightFilePre) - 1;
+            size_t orgLen        = len;
 
             memset(path, 0, TQC_MAX_PATH);
             memset(filePreRight, 0, TQC_MAX_PATH);
@@ -282,7 +286,7 @@ int main(int argc, char **argv)
                 Mat tmpScale1;
                 Mat tmpScale2;
 
-                width /= 2;
+                width  /= 2;
                 height /= 2;
 
                 resize(temp1, tmpScale1, Size(), 0.5f, 0.5f, INTER_LINEAR);
@@ -436,7 +440,7 @@ int main(int argc, char **argv)
             disp.convertTo(disp8, CV_8U);
 
         // benet-add for matlab display
-        if (disparity_filename)
+        if (g_bSaveDispData && disparity_filename)
         {
             // LOGE("Q Matrix: 0x%X\n", Q.type());
             // LOGE("%f %f %f %f\n", Q.at<double>(0, 0), Q.at<double>(0, 1), Q.at<double>(0, 2), Q.at<double>(0, 3));
@@ -464,7 +468,7 @@ int main(int argc, char **argv)
             LOGE("\n");
         }
 
-        if (point_cloud_filename)
+        if (g_bSavePCL && point_cloud_filename)
         {
             LOGE("storing the point cloud...");
             fflush(stdout);
@@ -521,7 +525,7 @@ void SavePic(const char *postfixName, Mat &disp8)
 
     // Save color picture
     CvMat *pColorMat = cvCreateMat(disp8.rows, disp8.cols, CV_8UC3);
-    CvMat grayMat = disp8;
+    CvMat grayMat    = disp8;
     Gray2Color(&grayMat, pColorMat);
     strFileName = GetFileName("color", postfixName, "jpg");
     Mat colorMat1 = Mat(pColorMat->rows, pColorMat->cols, CV_8UC3, pColorMat->data.ptr);
@@ -535,7 +539,7 @@ void SaveDispData(const char *filename, const char *postfixName, const Mat &mat)
     FILE *fp = NULL;
 
     buf = GetFileName(filename, postfixName, "dat");
-    fp = fopen(buf, "wt");
+    fp  = fopen(buf, "wt");
 
     fprintf(fp, "%02d\n", mat.rows);
     fprintf(fp, "%02d\n", mat.cols);
@@ -562,7 +566,7 @@ void SaveXYZData(const char *filename, const char *postfixName, const Mat &mat)
     FILE *fp = NULL;
 
     buf = GetFileName(filename, postfixName, "dat");
-    fp = fopen(buf, "wt");
+    fp  = fopen(buf, "wt");
 
     for (int y = 0; y < mat.rows; y++)
     {
@@ -576,7 +580,7 @@ void SaveXYZData(const char *filename, const char *postfixName, const Mat &mat)
 #endif
 
             // fprintf(fp, "%f %f %f\n", point[0], point[1], point[2]);
-            fprintf(fp, "%f %f %f\n", point[0]*16, point[1]*16, point[2]*16);
+            fprintf(fp, "%f %f %f\n", point[0] * 16, point[1] * 16, point[2] * 16);
         }
     }
 
@@ -621,10 +625,10 @@ void Gray2Color(CvMat *pGrayMat, CvMat *pColorMat)
 void SaveTimeCost(const char *postfixName, int64 time)
 {
     static int i = 0;
-    char fileName[TQC_MAX_PATH];
-    char *strPicName = NULL;
-    FILE *fp = NULL;
-    float fTime = 0.0f;
+    char       fileName[TQC_MAX_PATH];
+    char       *strPicName = NULL;
+    FILE       *fp         = NULL;
+    float      fTime       = 0.0f;
 
     fTime = (float)(time * 1000 / getTickFrequency());
     LOGE("#%d---Time elapsed: %8.3fms\n", ++i, fTime);
@@ -654,11 +658,11 @@ void FilterDisp(Mat &disp)
     {
         for (int x = 0; x < disp.cols; x++)
         {
-            int disp8 = (int)disp.at<short>(y, x);
-            double zc = ((q[2][3]) / (q[3][2] * disp8 + q[3][3])) * 16;
+            int    disp8 = (int)disp.at<short>(y, x);
+            double zc    = ((q[2][3]) / (q[3][2] * disp8 + q[3][3])) * 16;
 
             // Filter, if depth > 5m, we will skip this.
-            if (zc > 5000.0f )
+            if (zc > 5000.0f)
             {
                 disp.at<short>(y, x) = -16;
             }
