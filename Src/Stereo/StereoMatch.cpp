@@ -20,6 +20,9 @@ using namespace std;
 
 bool g_bSaveDispData = false;
 bool g_bSavePCL      = false;
+bool g_bCull         = true; // cull source image to skip border.
+int  g_nHoriSize     = 10;
+int  g_nVertSize     = 5;
 
 char *g_algorithmName = NULL;
 char *g_outputPath    = NULL;
@@ -410,6 +413,17 @@ int main(int argc, char **argv)
         sgbm->setSpeckleRange(32);
         sgbm->setDisp12MaxDiff(1);
         sgbm->setMode(alg == STEREO_HH ? StereoSGBM::MODE_HH : StereoSGBM::MODE_SGBM);
+
+        if (g_bCull)
+        {
+            Rect dstRC;
+            Mat  dstROI;
+
+            // Get the destination ROI (and make sure it is within the image!).
+            dstRC = Rect(g_nHoriSize, g_nVertSize, img1.cols - g_nHoriSize * 2, img2.rows - g_nVertSize * 2);
+            img1 = img1(dstRC);
+            img2 = img2(dstRC);
+        }
 
         Mat disp;
         Mat disp8;
