@@ -53,8 +53,8 @@ static bool ReadCameraMatrix(const string &filename,
     fs["M1"] >> cameraMatrix;
     fs["D1"] >> distCoeffs;
 
-    calibratedImageSize.width  = 640;
-    calibratedImageSize.height = 480;
+    calibratedImageSize.width  = 320;
+    calibratedImageSize.height = 240;
 
     return true;
 }
@@ -268,17 +268,23 @@ int main(int argc, char **argv)
             //tempobj[2] = Point3f(500.0f, 500.0f, 1000.0f);
             //tempobj[3] = Point3f(-500.0f, 500.0f, 1000.0f);
 
-            //// X, Y, Z: 40cm x 40cm x 1500cm
+            //// X, Y, Z: 40cm x 40cm x 150cm
             //tempobj[0] = Point3f(-200.0f, -200.0f, 1500.0f);
             //tempobj[1] = Point3f(200.0f, -200.0f, 1500.0f);
             //tempobj[2] = Point3f(200.0f, 200.0f, 1500.0f);
             //tempobj[3] = Point3f(-200.0f, 200.0f, 1500.0f);
 
-            // X, Y, Z: 30cm x 30cm x 1000cm
+            // X, Y, Z: 30cm x 30cm x 100cm
             tempobj[0] = Point3f(-150.0f, -150.0f, 1000.0f);
             tempobj[1] = Point3f(150.0f, -150.0f, 1000.0f);
             tempobj[2] = Point3f(150.0f, 150.0f, 1000.0f);
             tempobj[3] = Point3f(-150.0f, 150.0f, 1000.0f);
+
+            // X, Y, Z: 30cm x 30cm x 200cm
+            //tempobj[0] = Point3f(-150.0f, -150.0f, 1500.0f);
+            //tempobj[1] = Point3f(150.0f, -150.0f, 1500.0f);
+            //tempobj[2] = Point3f(150.0f, 150.0f, 1500.0f);
+            //tempobj[3] = Point3f(-150.0f, 150.0f, 1500.0f);
 
             rvec.at<double>(0, 0) = 0.0f;
             rvec.at<double>(1, 0) = 0.0f;

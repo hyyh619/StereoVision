@@ -16,14 +16,6 @@
 using namespace cv;
 using namespace std;
 
-#define SAVE_XYZ_FILTER 1
-
-bool g_bSaveDispData = false;
-bool g_bSavePCL      = false;
-bool g_bCull         = true; // cull source image to skip border.
-int  g_nHoriSize     = 10;
-int  g_nVertSize     = 5;
-
 char *g_algorithmName = NULL;
 char *g_outputPath    = NULL;
 int  g_width          = 0;
@@ -31,6 +23,7 @@ int  g_height         = 0;
 Mat  g_disp;
 Mat  g_Q;
 Size g_cameraCalibSize = Size(320, 240);
+FILE *g_depthFile      = 0;
 
 void SaveDispData(const char *filename, const char *postfixName, const Mat &mat);
 void SaveXYZData(const char *filename, const char *postfixName, const Mat &mat);
@@ -38,6 +31,7 @@ void SavePic(const char *postfixName, Mat &disp8);
 void SaveTimeCost(const char *postfixName, int64 time);
 void Gray2Color(CvMat *pGrayMat, CvMat *pColorMat);
 void FilterDisp(Mat &disp8);
+char* GetFileName(const char *fileName, const char *postfixName, const char *extName);
 
 static void PrintHelp()
 {
@@ -48,6 +42,62 @@ static void PrintHelp()
          "[--path outputPath] [--left left] [--right right]");
 }
 
+void ReprojectPixelTo3D(const Mat disp, const Mat &Q, const Point2i &pixel, Point3d &point)
+{
+    double q[4][4];
+    Mat    _Q(4, 4, CV_64F, q);
+    int    x = pixel.x;
+    int    y = pixel.y;
+
+    Q.convertTo(_Q, CV_64F);
+
+    point.x = ((x + q[0][3]) / (q[3][2] * g_disp.at<short>(y, x) + q[3][3])) * 16;
+    point.y = ((y + q[1][3]) / (q[3][2] * g_disp.at<short>(y, x) + q[3][3])) * 16;
+    point.z = ((q[2][3]) / (q[3][2] * g_disp.at<short>(y, x) + q[3][3])) * 16;
+}
+
+double GetDepthFromPixel(const Mat disp, const Mat &Q, const Point2i &pixel)
+{
+    double depth;
+    double q[4][4];
+    Mat    _Q(4, 4, CV_64F, q);
+    int    x = pixel.x;
+    int    y = pixel.y;
+
+    Q.convertTo(_Q, CV_64F);
+
+    depth = ((q[2][3]) / (q[3][2] * disp.at<short>(y, x) + q[3][3])) * 16;
+
+    return depth;
+}
+
+void CalcDepthOfVirtualCopter(const Mat &disp, const Mat &Q, double d[3][3])
+{
+    for (int j = 0; j < TQC_VIRTUAL_COPTER_Y_SPLITE; j++)
+    {
+        for (int i = 0; i < TQC_VIRTUAL_COPTER_X_SPLITE; i++)
+        {
+            int    left   = TQC_VIRTUAL_COPTER_LEFT + TQC_VIRTUAL_COPTER_SUB_X * i;
+            int    top    = TQC_VIRTUAL_COPTER_TOP + TQC_VIRTUAL_COPTER_SUB_Y * j;
+            int    right  = left + TQC_VIRTUAL_COPTER_SUB_X;
+            int    bottom = top + TQC_VIRTUAL_COPTER_SUB_Y;
+            double dMin   = 10000.0f;
+
+            for (int y = top; y < bottom; y++)
+            {
+                for (int x = left; x < right; x++)
+                {
+                    double cur = GetDepthFromPixel(disp, Q, Point2i(x, y));
+                    if (dMin > cur && cur > FLT_EPSILON)
+                        dMin = cur;
+                }
+            }
+
+            d[j][i] = dMin;
+        }
+    }
+}
+
 // Mouse event handler. Called automatically by OpenCV when the user clicks in the GUI window.
 void OnMouse(int event, int x, int y, int, void*)
 {
@@ -55,38 +105,36 @@ void OnMouse(int event, int x, int y, int, void*)
     if (event != CV_EVENT_LBUTTONDOWN)
         return;
 
-    double q[4][4];
-    Mat    _Q(4, 4, CV_64F, q);
+    Point3d p;
 
-    g_Q.convertTo(_Q, CV_64F);
+    ReprojectPixelTo3D(g_disp, g_Q, Point2i(x, y), p);
 
-    // Benet: we should multiply 16, because disparity value is multiplied by 16. See bm->compute.
-    double xc = ((x + q[0][3]) / (q[3][2] * g_disp.at<short>(y, x) + q[3][3])) * 16;
-    double yc = ((y + q[1][3]) / (q[3][2] * g_disp.at<short>(y, x) + q[3][3])) * 16;
-    double zc = ((q[2][3]) / (q[3][2] * g_disp.at<short>(y, x) + q[3][3])) * 16;
-
-    LOGE("(%d, %d, %d): %f, %f, %f\n", x, y, g_disp.at<short>(y, x), xc, yc, zc);
+    LOGE("(%d, %d, %d): %f, %f, %f\n", x, y, g_disp.at<short>(y, x), p.x, p.y, p.z);
 }
 
 int main(int argc, char **argv)
 {
-    const char *leftFilename         = 0;
-    const char *rightFilename        = 0;
-    const char *intrinsic_filename   = 0;
-    const char *extrinsic_filename   = 0;
-    const char *disparity_filename   = 0;
-    const char *point_cloud_filename = 0;
-    const char *leftPrefix           = NULL;
-    const char *rightPrefix          = NULL;
+    const char *strLeftFile      = NULL;
+    const char *strRightFile     = NULL;
+    const char *strIntrinsicFile = NULL;
+    const char *strExtrinsicFile = NULL;
+    const char *strDispFile      = NULL;
+    const char *strPCLFile       = NULL;
+    const char *strDepthFile     = NULL;
+    const char *strLeftPrefix    = NULL;
+    const char *strRightPrefix   = NULL;
 
     vector<char*> fileList1;
     vector<char*> fileList2;
 
+    char  filePre[TQC_MAX_PATH];
     int   alg                 = STEREO_SGBM;
     int   SADWindowSize       = 0;
     int   numberOfDisparities = 0;
     bool  no_display          = false;
     float scale               = 1.f;
+    int64 totalTimeCost       = 0;
+    int   totalFrame          = 0;
 
     Ptr<StereoBM>   bm   = StereoBM::create(16, 9);
     Ptr<StereoSGBM> sgbm = StereoSGBM::create(0, 16, 3);
@@ -101,10 +149,10 @@ int main(int argc, char **argv)
     {
         if (argv[i][0] != '-')
         {
-            if (!leftFilename)
-                leftFilename = argv[i];
+            if (!strLeftFile)
+                strLeftFile = argv[i];
             else
-                rightFilename = argv[i];
+                strRightFile = argv[i];
         }
         else if (strncmp(argv[i], ALGORITHM_OPTION, strlen(ALGORITHM_OPTION)) == 0)
         {
@@ -148,22 +196,51 @@ int main(int argc, char **argv)
             }
         }
         else if (strcmp(argv[i], NO_DISPLAY_OPTION) == 0)
+        {
             no_display = true;
+        }
         else if (strcmp(argv[i], "-i") == 0)
-            intrinsic_filename = argv[++i];
+        {
+            strIntrinsicFile = argv[++i];
+        }
         else if (strcmp(argv[i], "-e") == 0)
-            extrinsic_filename = argv[++i];
+        {
+            strExtrinsicFile = argv[++i];
+        }
         else if (strcmp(argv[i], "-o") == 0)
-            disparity_filename = argv[++i];
+        {
+            strDispFile = argv[++i];
+        }
         else if (strcmp(argv[i], "-p") == 0)
-            point_cloud_filename = argv[++i];
+        {
+            strPCLFile = argv[++i];
+        }
+        else if (strcmp(argv[i], "-v") == 0)
+        {
+            strDepthFile = argv[++i];
+            if (strDepthFile)
+            {
+                char buf[TQC_MAX_PATH];
+
+                memset(buf, 0, TQC_MAX_PATH);
+                sprintf(buf, "%s/%s", g_outputPath, strDepthFile);
+
+                g_depthFile = fopen(buf, "w");
+                if (!g_depthFile)
+                {
+                    LOGE("Cannot open depth file(%s).", buf);
+                    waitKey();
+                    return -1;
+                }
+            }
+        }
         else if (strcmp(argv[i], "--left") == 0)
         {
-            leftPrefix = argv[++i];
+            strLeftPrefix = argv[++i];
         }
         else if (strcmp(argv[i], "--right") == 0)
         {
-            rightPrefix = argv[++i];
+            strRightPrefix = argv[++i];
         }
         else if (strcmp(argv[i], "--path") == 0)
         {
@@ -176,44 +253,44 @@ int main(int argc, char **argv)
         }
     }
 
-    if ((!leftFilename || !rightFilename) &&
-        (!leftPrefix || !rightPrefix))
+    if ((!strLeftFile || !strRightFile) &&
+        (!strLeftPrefix || !strRightPrefix))
     {
         LOGE("Command-line parameter error: both left and right images must be specified\n");
         return -1;
     }
 
-    if ((intrinsic_filename != 0) ^ (extrinsic_filename != 0))
+    if ((strIntrinsicFile != 0) ^ (strExtrinsicFile != 0))
     {
         LOGE("Command-line parameter error: either both intrinsic and extrinsic parameters must be specified, or none of them (when the stereo pair is already rectified)\n");
         return -1;
     }
 
-    if (extrinsic_filename == 0 && point_cloud_filename && g_outputPath)
+    if (strExtrinsicFile == 0 && strPCLFile && g_outputPath)
     {
         LOGE("Command-line parameter error: extrinsic and intrinsic parameters must be specified to compute the point cloud\n");
         return -1;
     }
 
-    if (leftFilename && rightFilename)
+    if (strLeftFile && strRightFile)
     {
-        fileList1.push_back((char*)leftFilename);
-        fileList2.push_back((char*)rightFilename);
+        fileList1.push_back((char*)strLeftFile);
+        fileList2.push_back((char*)strRightFile);
     }
-    else if (leftPrefix && rightPrefix)
+    else if (strLeftPrefix && strRightPrefix)
     {
-        AddFileList(leftPrefix, fileList1);
-        AddFileList(rightPrefix, fileList2);
+        AddFileList(strLeftPrefix, fileList1);
+        AddFileList(strRightPrefix, fileList2);
     }
 
     for (int i = 0; i < fileList1.size() && i < fileList2.size(); i++)
     {
-        int color_mode = alg == STEREO_BM ? 0 : -1;
-        Mat img1       = imread(fileList1.at(i), color_mode);
-        Mat img2       = imread(fileList2.at(i), color_mode);
+        int    color_mode = alg == STEREO_BM ? 0 : -1;
+        double d[3][3]    = { 0.0f };
+        Mat    img1       = imread(fileList1.at(i), color_mode);
+        Mat    img2       = imread(fileList2.at(i), color_mode);
 
         char   path[TQC_MAX_PATH];
-        char   filePre[TQC_MAX_PATH];
         char   *leftFilePre = fileList1.at(i);
         size_t len          = strlen(leftFilePre) - 1;
         size_t orgLen       = len;
@@ -314,13 +391,13 @@ int main(int argc, char **argv)
         Rect roi1, roi2;
         Mat  Q;
 
-        if (intrinsic_filename)
+        if (strIntrinsicFile)
         {
             // reading intrinsic parameters
-            FileStorage fs(intrinsic_filename, FileStorage::READ);
+            FileStorage fs(strIntrinsicFile, FileStorage::READ);
             if (!fs.isOpened())
             {
-                LOGE("Failed to open file %s\n", intrinsic_filename);
+                LOGE("Failed to open file %s\n", strIntrinsicFile);
                 return -1;
             }
 
@@ -351,10 +428,10 @@ int main(int argc, char **argv)
                 M2.at<double>(1, 2) *= sy;
             }
 
-            fs.open(extrinsic_filename, FileStorage::READ);
+            fs.open(strExtrinsicFile, FileStorage::READ);
             if (!fs.isOpened())
             {
-                LOGE("Failed to open file %s\n", extrinsic_filename);
+                LOGE("Failed to open file %s\n", strExtrinsicFile);
                 return -1;
             }
 
@@ -414,16 +491,18 @@ int main(int argc, char **argv)
         sgbm->setDisp12MaxDiff(1);
         sgbm->setMode(alg == STEREO_HH ? StereoSGBM::MODE_HH : StereoSGBM::MODE_SGBM);
 
-        if (g_bCull)
+#if TQC_STEREO_CULL
         {
             Rect dstRC;
             Mat  dstROI;
 
             // Get the destination ROI (and make sure it is within the image!).
-            dstRC = Rect(g_nHoriSize, g_nVertSize, img1.cols - g_nHoriSize * 2, img2.rows - g_nVertSize * 2);
+            dstRC = Rect(TQC_STEREO_CAMERA_X_BORDER, TQC_STEREO_CAMERA_Y_BORDER,
+                         img1.cols - TQC_STEREO_CAMERA_X_BORDER * 2, img2.rows - TQC_STEREO_CAMERA_Y_BORDER * 2);
             img1 = img1(dstRC);
             img2 = img2(dstRC);
         }
+#endif
 
         Mat disp;
         Mat disp8;
@@ -437,10 +516,6 @@ int main(int argc, char **argv)
             sgbm->compute(img1, img2, disp);
         }
 
-        // Output time cost.
-        t = getTickCount() - t;
-        SaveTimeCost(filePre, t);
-
         g_disp = disp;
 
         // Filter, if depth > 5m, we will skip this.
@@ -453,16 +528,48 @@ int main(int argc, char **argv)
         else
             disp.convertTo(disp8, CV_8U);
 
+        CalcDepthOfVirtualCopter(disp, Q, d);
+
+        // Output time cost.
+        t = getTickCount() - t;
+        SaveTimeCost(filePre, t);
+        if (i != 0)
+        {
+            totalFrame++;
+            totalTimeCost += t;
+        }
+
+        // LOGE("****************************************");
+        // LOGE("* %08.3f * %08.3f * %08.3f *", d[0][0], d[0][1], d[0][2]);
+        // LOGE("* %08.3f * %08.3f * %08.3f *", d[1][0], d[1][1], d[1][2]);
+        // LOGE("* %08.3f * %08.3f * %08.3f *", d[2][0], d[2][1], d[2][2]);
+        // LOGE("****************************************");
+
+#if TQC_OUTPUT_VIRTUAL_COPTER_DEPTH_TO_FILE
+        if (g_depthFile)
+        {
+            char *strFileName = GetFileName("disp", filePre, "jpg");
+            fprintf(g_depthFile, "%s\n", strFileName);
+            fprintf(g_depthFile, "****************************************\n");
+            fprintf(g_depthFile, "* %08.3f * %08.3f * %08.3f *\n", d[0][0], d[0][1], d[0][2]);
+            fprintf(g_depthFile, "* %08.3f * %08.3f * %08.3f *\n", d[1][0], d[1][1], d[1][2]);
+            fprintf(g_depthFile, "* %08.3f * %08.3f * %08.3f *\n", d[2][0], d[2][1], d[2][2]);
+            fprintf(g_depthFile, "****************************************\n\n");
+        }
+#endif
+
+#if TQC_OUTPUT_DISP_VALUE_TO_FILE
         // benet-add for matlab display
-        if (g_bSaveDispData && disparity_filename)
+        if (strDispFile)
         {
             // LOGE("Q Matrix: 0x%X\n", Q.type());
             // LOGE("%f %f %f %f\n", Q.at<double>(0, 0), Q.at<double>(0, 1), Q.at<double>(0, 2), Q.at<double>(0, 3));
             // LOGE("%f %f %f %f\n", Q.at<double>(1, 0), Q.at<double>(1, 1), Q.at<double>(1, 2), Q.at<double>(1, 3));
             // LOGE("%f %f %f %f\n", Q.at<double>(2, 0), Q.at<double>(2, 1), Q.at<double>(2, 2), Q.at<double>(2, 3));
             // LOGE("%f %f %f %f\n", Q.at<double>(3, 0), Q.at<double>(3, 1), Q.at<double>(3, 2), Q.at<double>(3, 3));
-            SaveDispData(disparity_filename, filePre, disp);
+            SaveDispData(strDispFile, filePre, disp);
         }
+#endif
 
         if (!no_display)
         {
@@ -482,18 +589,24 @@ int main(int argc, char **argv)
             LOGE("\n");
         }
 
-        if (g_bSavePCL && point_cloud_filename)
+#if TQC_OUTPUT_3D_PCL_TO_FILE
+        if (strPCLFile)
         {
             LOGE("storing the point cloud...");
             fflush(stdout);
             Mat xyz;
             reprojectImageTo3D(disp, xyz, Q, true);
-            SaveXYZData(point_cloud_filename, filePre, xyz);
+            SaveXYZData(strPCLFile, filePre, xyz);
             LOGE("\n");
         }
+#endif
 
+#if TQC_OUTPUT_DISP_TO_IMAGE
         SavePic(filePre, disp8);
+#endif
     }
+
+    SaveTimeCost(filePre, totalTimeCost / totalFrame);
 
     for (int i = 0; i < fileList1.size(); i++)
     {
@@ -572,7 +685,7 @@ void SaveDispData(const char *filename, const char *postfixName, const Mat &mat)
 
 void SaveXYZData(const char *filename, const char *postfixName, const Mat &mat)
 {
-#if SAVE_XYZ_FILTER
+#if TQC_SAVE_XYZ_FILTER
     const double max_z = 1.0e4;
 #endif
 
@@ -588,7 +701,7 @@ void SaveXYZData(const char *filename, const char *postfixName, const Mat &mat)
         {
             Vec3f point = mat.at<Vec3f>(y, x);
 
-#if SAVE_XYZ_FILTER
+#if TQC_SAVE_XYZ_FILTER
             if (fabs(point[2] - max_z) < FLT_EPSILON || fabs(point[2]) > max_z)
                 continue;
 #endif
