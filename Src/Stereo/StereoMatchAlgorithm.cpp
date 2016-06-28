@@ -165,7 +165,7 @@ void StereoCalcDepthOfVirtualCopter(const Mat &disp, const Mat &Q, double d[3][3
             int    top = TQC_VIRTUAL_COPTER_TOP + TQC_VIRTUAL_COPTER_SUB_Y * j;
             int    right = left + TQC_VIRTUAL_COPTER_SUB_X;
             int    bottom = top + TQC_VIRTUAL_COPTER_SUB_Y;
-            double dMin = TQC_MAX_DEPTH
+            double dMin = TQC_MAX_DEPTH;
 
             for (int y = top; y < bottom; y++)
             {

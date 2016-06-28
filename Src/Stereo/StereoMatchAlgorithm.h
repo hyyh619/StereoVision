@@ -8,7 +8,7 @@
 
 using namespace cv;
 
-#define TQC_MAX_DEPTH               10000.0f;  // 10m
+#define TQC_MAX_DEPTH               10000.0f  // 10m
 
 
 typedef enum _enStereoAlgorithm

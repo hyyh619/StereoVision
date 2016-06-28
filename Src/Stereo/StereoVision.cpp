@@ -105,7 +105,12 @@ int main(int argc, char *argv[])
 
     while (1)
     {
-        Mat displayFrame = Mat(Size(g_windowWidth, g_windowHeight), CV_8UC3);
+        Mat    displayFrame = Mat(Size(g_windowWidth, g_windowHeight), CV_8UC3);
+        Mat    disp;
+        Mat    disp8;
+        double d[3][3] = { 0.0f };
+        int64  t       = getTickCount();
+
         displayFrame.empty();
 
         if (!StereoGetFrame(leftCam, rightCam, leftFrame, rightFrame))
@@ -113,46 +118,37 @@ int main(int argc, char *argv[])
             return -1;
         }
 
-        Mat img1r, img2r;
-        remap(leftFrame, img1r, g_CamParam.map11, g_CamParam.map12, INTER_LINEAR);
-        remap(leftFrame, img2r, g_CamParam.map21, g_CamParam.map22, INTER_LINEAR);
-
-        leftFrame = img1r;
-        leftFrame = img2r;
-
-        Mat disp, disp8;
-
-        int64 t = getTickCount();
-
-        if (g_option.algorithm == TQC_STEREO_BM)
+        if (!StereoMatch(leftFrame, rightFrame, g_option.fScale, g_option.algorithm, g_CamParam, disp))
         {
-            g_bm->compute(leftFrame, rightFrame, disp);
+            LOGE("%s(%d): cannot match left and right images.", __FUNCTION__, __LINE__);
+            return -1;
         }
-        else if (g_option.algorithm == TQC_STEREO_SGBM || g_option.algorithm == TQC_STEREO_HH)
-        {
-            g_sgbm->compute(leftFrame, rightFrame, disp);
-        }
+
+        disp8 = StereoGetDisp8FromDisp(disp, g_algorithmParam.selector, g_algorithmParam.nNumDisparities);
+        StereoCalcDepthOfVirtualCopter(disp, g_CamParam.Q, d);
 
         t = getTickCount() - t;
         LOGE("#%d---Time elapsed: %fms\n", ++i, t * 1000 / getTickFrequency());
 
-        if (g_option.algorithm != TQC_STEREO_VAR)
-            disp.convertTo(disp8, CV_8U, 255 / (g_option.nNumDisparities * 16.));
-        else
-            disp.convertTo(disp8, CV_8U);
+        // Show depth value
+        LOGE("****************************************\n");
+        LOGE("* %08.3f * %08.3f * %08.3f *\n", d[0][0], d[0][1], d[0][2]);
+        LOGE("* %08.3f * %08.3f * %08.3f *\n", d[1][0], d[1][1], d[1][2]);
+        LOGE("* %08.3f * %08.3f * %08.3f *\n", d[2][0], d[2][1], d[2][2]);
+        LOGE("****************************************\n\n");
 
-        // Get the destination ROI (and make sure it is within the image!).
+        // Show left frame.
         dstRC  = Rect(g_border, g_border, g_cameraWidth, g_cameraHeight);
         dstROI = displayFrame(dstRC);
         leftFrame.copyTo(dstROI);
 
-        // Get the destination ROI (and make sure it is within the image!).
+        // Show right frame.
         dstRC  = Rect(g_cameraWidth + g_border * 2, g_border, g_cameraWidth, g_cameraHeight);
         dstROI = displayFrame(dstRC);
         rightFrame.copyTo(dstROI);
 
-        // Get the destination ROI (and make sure it is within the image!).
-        dstRC  = Rect(g_border, g_border * 2 + g_cameraHeight, g_cameraWidth, g_cameraHeight);
+        // Show disparities' image.
+        dstRC  = Rect(g_border, g_border * 2 + g_cameraHeight, disp8.cols, disp8.rows);
         dstROI = displayFrame(dstRC);
         Mat dispColor;
         // disp8.convertTo(dispColor, displayFrame.type());

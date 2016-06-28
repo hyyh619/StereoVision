@@ -37,7 +37,7 @@ typedef struct _stCmdOption
     char *strLeftPrefix;
     char *strRightPrefix;
 
-    void stCmdOption()
+    _stCmdOption()
     {
         bDisplay         = true;
         strAlgorithmName = NULL;
