@@ -298,12 +298,18 @@
     <ClInclude Include="..\..\Src\Common\TqcUtils.h" />
     <ClInclude Include="..\..\Src\Os\TqcOs.h" />
     <ClInclude Include="..\..\Src\Stereo\Config.h" />
+    <ClInclude Include="..\..\Src\Stereo\StereoCamera.h" />
+    <ClInclude Include="..\..\Src\Stereo\StereoMatchAlgorithm.h" />
+    <ClInclude Include="..\..\Src\Stereo\StereoUtils.h" />
     <ClInclude Include="..\..\Src\Stereo\StereoVision.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Src\Common\TqcUtils.cpp" />
     <ClCompile Include="..\..\Src\Os\Windows\TqcWindowsOS.cpp" />
+    <ClCompile Include="..\..\Src\Stereo\StereoCamera.cpp" />
     <ClCompile Include="..\..\Src\Stereo\StereoMatch.cpp" />
+    <ClCompile Include="..\..\Src\Stereo\StereoMatchAlgorithm.cpp" />
+    <ClCompile Include="..\..\Src\Stereo\StereoUtils.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -34,7 +34,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_CV310|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -48,7 +48,7 @@
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -169,6 +169,9 @@
   <ItemGroup>
     <ClCompile Include="..\..\Src\Common\TqcUtils.cpp" />
     <ClCompile Include="..\..\Src\Os\Windows\TqcWindowsOS.cpp" />
+    <ClCompile Include="..\..\Src\Stereo\StereoCamera.cpp" />
+    <ClCompile Include="..\..\Src\Stereo\StereoMatchAlgorithm.cpp" />
+    <ClCompile Include="..\..\Src\Stereo\StereoUtils.cpp" />
     <ClCompile Include="..\..\Src\Stereo\StereoVision.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -176,6 +179,9 @@
     <ClInclude Include="..\..\Src\Common\TqcUtils.h" />
     <ClInclude Include="..\..\Src\Os\TqcOs.h" />
     <ClInclude Include="..\..\Src\Stereo\Config.h" />
+    <ClInclude Include="..\..\Src\Stereo\StereoCamera.h" />
+    <ClInclude Include="..\..\Src\Stereo\StereoMatchAlgorithm.h" />
+    <ClInclude Include="..\..\Src\Stereo\StereoUtils.h" />
     <ClInclude Include="..\..\Src\Stereo\StereoVision.h" />
   </ItemGroup>
   <ItemGroup>

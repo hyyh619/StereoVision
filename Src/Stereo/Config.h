@@ -1,18 +1,29 @@
 #ifndef __CONFIG_H
 #define __CONFIG_H
 
-#include <opencv2/opencv.hpp>
+// Match Algorithm's number of disparities
+#ifndef TQC_NUM_DISPARITIES
+#define TQC_NUM_DISPARITIES 16
+#endif
 
-using namespace cv;
+// SAD Window Size
+#ifndef TQC_SAD_WINDOW_SIZE
+#define TQC_SAD_WINDOW_SIZE 5
+#endif
 
-
-#ifndef SAVE_CAMERA_FRAME
-#define SAVE_CAMERA_FRAME 0                              // Enable multi-thread for boosting performance. Disabled by default for android.
+// Image scale, 1.0 means no scale.
+#ifndef TQC_IMAGE_SCALE
+#define TQC_IMAGE_SCALE 1.0f
 #endif
 
 // Cull source images from 320x240 to 300x230
 #ifndef TQC_STEREO_CULL
 #define TQC_STEREO_CULL 1
+#endif
+
+// Enable filter depth value if value > some value.
+#ifndef TQC_FILTER_DEPTH_VALUE
+#define TQC_FILTER_DEPTH_VALUE 0
 #endif
 
 // Output virtual copter's depth value to file
@@ -38,7 +49,7 @@ using namespace cv;
 
 // Save disparity values as gray image file and color file.
 #ifndef TQC_OUTPUT_DISP_TO_IMAGE
-#define TQC_OUTPUT_DISP_TO_IMAGE 0
+#define TQC_OUTPUT_DISP_TO_IMAGE 1
 #endif
 
 #ifndef TQC_STEREO_CAMERA_WIDTH
