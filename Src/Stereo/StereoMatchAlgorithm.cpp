@@ -92,7 +92,6 @@ bool StereoMatch(Mat left,
         imgRight = right;
     }
 
-
     remap(imgLeft, img1r, camParam.map11, camParam.map12, INTER_LINEAR);
     remap(imgRight, img2r, camParam.map21, camParam.map22, INTER_LINEAR);
 
